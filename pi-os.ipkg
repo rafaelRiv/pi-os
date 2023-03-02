@@ -1,0 +1,12 @@
+package pi
+
+authors = "Rafael Prévost-Rivero"
+builddir = "build"
+executable= "pi-os"
+homepage = "https://gitlab.com/pi-os/pi-os"
+main = Main
+maintainers = "Rafael Prévost-Rivero"
+opts = ""
+sourcedir = "./src"
+sourceloc = "https://gitlab.com/pi-os/pi-os"
+version = 0.0.1
