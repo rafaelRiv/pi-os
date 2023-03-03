@@ -7,6 +7,6 @@ homepage = "https://gitlab.com/pi-os/pi-os"
 main = Main
 maintainers = "Rafael Prévost-Rivero"
 opts = ""
-sourcedir = "./src"
+sourcedir = "./src/cmd/idris/riscv"
 sourceloc = "https://gitlab.com/pi-os/pi-os"
 version = 0.0.1
