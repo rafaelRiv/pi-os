@@ -1,25 +1,18 @@
-#include <stdint.h>
-#include <stddef.h>
- 
-unsigned char * uart = (unsigned char *)0x10000000; 
-void putchar(char c) {
-	*uart = c;
-	return;
-}
- 
-void print(const char * str) {
-	while(*str != '\0') {
-		putchar(*str);
-		str++;
-	}
-	return;
-}
- 
+#include "pc/uart.h"
+#include "rts/stringOps.h"
+#include "rts/memoryManagement.h"
+
 void kmain(void) {
-	print("Hello world!\r\n");
-//	while(1) {
-		// Read input from the UART
-	//	putchar(*uart);
-//	}
+  alloc(8);
+
+ // const size_t num_pages = HEAP_SIZE / PAGE_SIZE;
+
+/*  char test[50];
+  HEAP_START=100;
+
+  toString(test, HEAP_START);
+
+  print(test); */
+
 	return;
 }

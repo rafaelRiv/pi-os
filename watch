@@ -1,0 +1,1 @@
+ find src/pi -iname "*.c" | entr time make
