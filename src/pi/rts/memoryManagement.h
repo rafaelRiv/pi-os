@@ -13,6 +13,7 @@ extern size_t HEAP_START;
 extern size_t HEAP_SIZE;
 extern size_t KERNEL_STACK_START;
 extern size_t KERNEL_STACK_END;
+extern size_t KERNEL_TABLE;
 extern size_t BSS_START;
 extern size_t BSS_END;
 
