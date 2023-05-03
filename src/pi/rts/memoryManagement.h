@@ -3,11 +3,18 @@
 #include "cBackend.h"
 
 struct Page {
-  char flags;
+  int flags;
+};
+
+enum PageBits {
+  Empty = 0,
+	Taken = 1 << 0,
+	Last = 1 << 1,
 };
 
 Value *newValue(size_t size);
 void *alloc(size_t pages);
+void init();
 
 extern size_t HEAP_START;
 extern size_t HEAP_SIZE;

@@ -4,5 +4,5 @@
 
 void kmain(void) {
   print("execute kmain\n");
-  alloc(8);
+  init();
 }

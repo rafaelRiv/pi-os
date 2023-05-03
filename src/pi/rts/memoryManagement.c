@@ -30,10 +30,22 @@ void print_address_hex(void* p0) {
     }
 }
 
+void init () {
+  char log[10];
+
+  int num_pages = HEAP_SIZE / PAGE_SIZE;
+
+  int *iptr = HEAP_START;
+  int *ptr = HEAP_START;
+
+  for(int i = 0; i < num_pages; i++)
+    *ptr++ = Empty;
+
+  toString(log,*iptr++);
+
+  print(log);
+ }
+
 void *alloc(size_t pages) {
-  if(pages > 0) {
-    int *ptr = HEAP_START;
-    *ptr = 'H';
-    putchar(*ptr);
-  }
+
 }
