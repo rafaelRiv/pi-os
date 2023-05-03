@@ -2,15 +2,18 @@
 
 #include "cBackend.h"
 
-static size_t HEAP_START;
-//static size_t HEAP_SIZE;
-
-//size_t PAGE_SIZE = 1 << 12;
-
 struct Page {
-  int flags;
+  char flags;
 };
 
 Value *newValue(size_t size);
 void *alloc(size_t pages);
+
+extern size_t HEAP_START;
+extern size_t HEAP_SIZE;
+extern size_t KERNEL_STACK_START;
+extern size_t KERNEL_STACK_END;
+extern size_t BSS_START;
+extern size_t BSS_END;
+
 

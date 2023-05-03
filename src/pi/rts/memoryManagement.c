@@ -2,6 +2,9 @@
 #include "stringOps.h"
 #include "../pc/uart.h"
 
+
+size_t PAGE_SIZE = 1 << 12;
+
 Value *newValue(size_t size) {
  // Value *retVal = (Value *)malloc(size);
 //  IDRIS2_REFC_VERIFY(retVal, "malloc failed");
@@ -10,16 +13,27 @@ Value *newValue(size_t size) {
  // return retVal;
 }
 
+char hex_digit(int v) {
+    if (v >= 0 && v < 10)
+        return '0' + v;
+    else
+        return 'a' + v - 10; // <-- Here
+}
+
+void print_address_hex(void* p0) {
+    int i;
+    int p = (int)p0;
+
+    putchar('0'); putchar('x');
+    for(i = (sizeof(p) << 3) - 4; i>=0; i -= 4) {
+      putchar(hex_digit((p >> i) & 0xf));
+    }
+}
+
 void *alloc(size_t pages) {
-  char log[10];
-
   if(pages > 0) {
-    //const int num_pages = HEAP_SIZE / PAGE_SIZE;
-    struct Page *ptr = 402657395; // HEAP START TEST
-    ptr->flags = 23;
-
-    toString(log, ptr->flags);
-
-    print(log);
+    int *ptr = HEAP_START;
+    *ptr = 'H';
+    putchar(*ptr);
   }
 }
