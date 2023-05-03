@@ -2,6 +2,8 @@
 
 #include "cBackend.h"
 
+#define PAGE_SIZE 1 << 12
+
 struct Page {
   int flags;
 };

@@ -2,9 +2,6 @@
 #include "stringOps.h"
 #include "../pc/uart.h"
 
-
-size_t PAGE_SIZE = 1 << 12;
-
 Value *newValue(size_t size) {
  // Value *retVal = (Value *)malloc(size);
 //  IDRIS2_REFC_VERIFY(retVal, "malloc failed");
@@ -41,7 +38,7 @@ void init () {
   for(int i = 0; i < num_pages; i++)
     *ptr++ = Empty;
 
-  toString(log,*iptr++);
+  toString(log,*iptr);
 
   print(log);
  }
