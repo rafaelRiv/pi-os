@@ -10,8 +10,9 @@ struct Page {
 
 enum PageBits {
   Empty = 0,
-	Taken = 1 << 0,
-	Last = 1 << 1,
+  Taken = 1
+//	Taken = 1 << 0,
+//	Last = 1 << 1,
 };
 
 Value *newValue(size_t size);

@@ -27,21 +27,22 @@ void print_address_hex(void* p0) {
     }
 }
 
+int divRoundClosest(const int n, const int d)
+{
+  return ((n < 0) == (d < 0)) ? ((n + d/2)/d) : ((n - d/2)/d);
+}
+
 void init () {
   char log[10];
+  int i = 0;
 
-  int num_pages = HEAP_SIZE / PAGE_SIZE;
+  int num_pages = divRoundClosest(HEAP_SIZE,PAGE_SIZE);
 
-  int *iptr = HEAP_START;
   int *ptr = HEAP_START;
 
-  for(int i = 0; i < num_pages; i++)
-    *ptr++ = Empty;
-
-  toString(log,*iptr);
-
-  print(log);
- }
+  for(i = 0; i < num_pages; i++)
+      *ptr++ = Empty;
+}
 
 void *alloc(size_t pages) {
 
