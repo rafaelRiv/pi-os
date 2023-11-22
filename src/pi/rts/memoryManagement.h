@@ -4,18 +4,23 @@
 
 #define PAGE_SIZE 1 << 12
 
+typedef signed char int8_t;
+
 struct Page {
-  int flags;
+  int8_t flags;
+};
+
+struct FreePages {
+	struct FreePages *next;
 };
 
 enum PageBits {
   Empty = 0,
-  Taken = 1
-//	Taken = 1 << 0,
-//	Last = 1 << 1,
+  Taken = 1 << 0,
+	Last = 1 << 1,
 };
 
-Value *newValue(size_t size);
+//Value *newValue(size_t size);
 void *alloc(size_t pages);
 void init();
 
