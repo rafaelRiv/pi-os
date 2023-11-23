@@ -10,6 +10,7 @@
  // retVal->header.tag = NO_TAG;
  // return retVal;
 //}
+//
 
 char hex_digit(int v) {
     if (v >= 0 && v < 10)
@@ -36,29 +37,34 @@ void init () {
       *ptr++ = Empty;
 }
 
-/*void *alloc(size_t pages) {
-//  int num_pages = divRoundClosest(HEAP_SIZE,PAGE_SIZE);
-//	Page *ptr = (Page) HEAP_START;
-
+int alloc(size_t pages) {
+  int num_pages = divRoundClosest(HEAP_SIZE,PAGE_SIZE);
+  size_t *ptr = (size_t*) HEAP_START;
   
-  for(int i = 0)
+  for(int i = 0; i < num_pages - (int)pages; i++) {
+    if(*ptr == Empty) {
+      char found = 1;
 
-    for i in 0..num_pages - pages {
-			let mut found = false;
-			// Check to see if this Page is free. If so, we have our
-			// first candidate memory address.
-			if (*ptr.add(i)).is_free() {
-				// It was FREE! Yay!
-				found = true;
-				for j in i..i + pages {
-					// Now check to see if we have a
-					// contiguous allocation for all of the
-					// request pages. If not, we should
-					// check somewhere else.
-					if (*ptr.add(j)).is_taken() {
-						found = false;
-						break;
-					}
-				}
-			} 
-} */
+      for(int j = 0; j < i+(int)pages; j++) {
+        if(*ptr == Taken) {
+          found = 1;
+          break;
+        }
+      }
+
+      if(found) {
+        for(int k = i; k < i+(int)pages; k++) {
+          ptr[i] = Taken;
+        }
+
+        ptr[i+pages-1] = Last;
+
+        return ALLOC_START + PAGE_SIZE * i;
+      }
+
+    }
+  }
+
+  return -1;
+}
+ 

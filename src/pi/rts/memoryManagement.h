@@ -3,12 +3,13 @@
 #include "cBackend.h"
 
 #define PAGE_SIZE 1 << 12
+#define ALLOC_START 0
 
 typedef signed char int8_t;
 
-struct Page {
+typedef struct Page {
   int8_t flags;
-};
+} Page;
 
 struct FreePages {
 	struct FreePages *next;
@@ -21,7 +22,7 @@ enum PageBits {
 };
 
 //Value *newValue(size_t size);
-void *alloc(size_t pages);
+int alloc(size_t pages);
 void init();
 
 extern size_t HEAP_START;
