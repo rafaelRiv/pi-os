@@ -16,7 +16,7 @@ char hex_digit(int v) {
     if (v >= 0 && v < 10)
         return '0' + v;
     else
-        return 'a' + v - 10; // <-- Here
+        return 'a' + v - 10;
 }
 
 void print_address_hex(void* p0) {
@@ -83,5 +83,20 @@ void dealloc(int8_t *ptr) {
 	}
 
   *ptr = Empty;
+}
+
+
+int8_t zalloc(size_t pages) {
+  int8_t ret = alloc(pages);
+
+  if(ret != -1) {
+    size_t size = (PAGE_SIZE * pages) / 8;
+    int8_t* big_ptr = ret;
+
+    for(size_t i = 0; i < size; i++) {
+      *big_ptr = Empty;
+      big_ptr++;
+    }
+  }
 }
 
