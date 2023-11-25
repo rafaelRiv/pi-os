@@ -37,15 +37,15 @@ void init () {
       *ptr++ = Empty;
 }
 
-int alloc(size_t pages) {
-  int num_pages = divRoundClosest(HEAP_SIZE,PAGE_SIZE);
+int8_t alloc(size_t pages) {
+  size_t num_pages = divRoundClosest(HEAP_SIZE,PAGE_SIZE);
   size_t *ptr = (size_t*) HEAP_START;
   
-  for(int i = 0; i < num_pages - (int)pages; i++) {
+  for(size_t i = 0; i < num_pages - pages; i++) {
     if(*ptr == Empty) {
       char found = 1;
 
-      for(int j = 0; j < i+(int)pages; j++) {
+      for(size_t j = 0; j < i+pages; j++) {
         if(*ptr == Taken) {
           found = 1;
           break;
@@ -53,7 +53,7 @@ int alloc(size_t pages) {
       }
 
       if(found) {
-        for(int k = i; k < i+(int)pages; k++) {
+        for(size_t k = i; k < i+pages; k++) {
           ptr[i] = Taken;
         }
 
@@ -67,4 +67,21 @@ int alloc(size_t pages) {
 
   return -1;
 }
- 
+
+void dealloc(int8_t *ptr) {
+  int8_t *addr =  ((size_t)ptr - ALLOC_START) / PAGE_SIZE;
+
+  if(*ptr == Empty) 
+    return;
+
+  if(addr >= HEAP_START && addr < HEAP_START + HEAP_SIZE)
+    return;
+
+	while (*ptr != Last) {
+    *ptr = Empty;
+    ptr++;
+	}
+
+  *ptr = Empty;
+}
+

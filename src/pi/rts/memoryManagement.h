@@ -22,7 +22,7 @@ enum PageBits {
 };
 
 //Value *newValue(size_t size);
-int alloc(size_t pages);
+int8_t alloc(size_t pages);
 void init();
 
 extern size_t HEAP_START;
