@@ -12,23 +12,6 @@
 //}
 //
 
-char hex_digit(int v) {
-    if (v >= 0 && v < 10)
-        return '0' + v;
-    else
-        return 'a' + v - 10;
-}
-
-void print_address_hex(void* p0) {
-    int i;
-    int p = (int)p0;
-
-    putchar('0'); putchar('x');
-    for(i = (sizeof(p) << 3) - 4; i>=0; i -= 4) {
-      putchar(hex_digit((p >> i) & 0xf));
-    }
-}
-
 void init () {
   int num_pages = divRoundClosest(HEAP_SIZE,PAGE_SIZE);
   size_t *ptr = (size_t*) HEAP_START;

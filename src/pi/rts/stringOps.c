@@ -28,4 +28,12 @@ void toString(char str[], int num)
 char head(char *str) {
   return str[0];
 }
+
+char hex_digit(int v) {
+    if (v >= 0 && v < 10)
+        return '0' + v;
+    else
+        return 'a' + v - 10;
+}
+
  
