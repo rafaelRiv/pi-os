@@ -40,6 +40,10 @@ SECTIONS
   .bss : {
     PROVIDE(_bss_start = .);
     *(.sbss .sbss.*) *(.bss .bss.*)
+
+    __malloc_start = .;
+    . = . + 512;
+
     PROVIDE(_bss_end = .);
   } >ram AT>ram :bss
   PROVIDE(_memory_start = ORIGIN(ram));
