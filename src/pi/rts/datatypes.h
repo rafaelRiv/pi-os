@@ -30,6 +30,16 @@
 #define COMPLETE_CLOSURE_TAG 98 // for trampoline tail recursion handling
 #define WORLD_TAG 99
 
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+
+typedef char int8_t;
+typedef short int16_t;
+typedef int int32_t;
+typedef long long int64_t;
+
 typedef struct {
   int refCounter;
   int tag;
@@ -42,7 +52,7 @@ typedef struct {
   // followed by type-specific payload.
 } Value;
 
-/*
+
 typedef struct {
   Value_header header;
   uint8_t ui8;
@@ -85,8 +95,8 @@ typedef struct {
 
 typedef struct {
   Value_header header;
-  mpz_t i;
-} Value_Integer; */
+  int i;
+} Value_Integer;
 
 typedef struct {
   Value_header header;
@@ -103,7 +113,6 @@ typedef struct {
   char *str;
 } Value_String;
 
-/*
 typedef struct {
   Value_header header;
   int32_t total;
@@ -125,25 +134,24 @@ typedef struct {
   Value_header header;
   fun_ptr_t f;
   Value_Arglist *arglist;
-} Value_Closure; */
+} Value_Closure;
 
-/*
 typedef struct {
   Value_header header;
   int32_t index;
-} Value_IORef; */
+} Value_IORef;
 
 typedef struct {
   Value_header header;
   void *p;
 } Value_Pointer;
 
-/*
+
 typedef struct {
   Value_header header;
   Value_Pointer *p;
   Value_Closure *onCollectFct;
-} Value_GCPointer; */
+} Value_GCPointer;
 
 typedef struct {
   Value_header header;
@@ -151,21 +159,17 @@ typedef struct {
   Value **arr;
 } Value_Array;
 
-/*
+// TODO: move it to buffer.c
+typedef struct {
+  int size;
+  char data[];
+} Buffer;
+
+
 typedef struct {
   Value_header header;
   Buffer *buffer;
 } Value_Buffer;
-
-typedef struct {
-  Value_header header;
-  pthread_mutex_t *mutex;
-} Value_Mutex;
-
-typedef struct {
-  Value_header header;
-  pthread_cond_t *cond;
-} Value_Condition; */
 
 typedef struct {
   Value **refs;
