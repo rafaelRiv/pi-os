@@ -42,3 +42,139 @@ typedef struct {
   // followed by type-specific payload.
 } Value;
 
+/*
+typedef struct {
+  Value_header header;
+  uint8_t ui8;
+} Value_Bits8;
+
+typedef struct {
+  Value_header header;
+  uint16_t ui16;
+} Value_Bits16;
+
+typedef struct {
+  Value_header header;
+  uint32_t ui32;
+} Value_Bits32;
+
+typedef struct {
+  Value_header header;
+  uint64_t ui64;
+} Value_Bits64;
+
+typedef struct {
+  Value_header header;
+  int8_t i8;
+} Value_Int8;
+
+typedef struct {
+  Value_header header;
+  int16_t i16;
+} Value_Int16;
+
+typedef struct {
+  Value_header header;
+  int32_t i32;
+} Value_Int32;
+
+typedef struct {
+  Value_header header;
+  int64_t i64;
+} Value_Int64;
+
+typedef struct {
+  Value_header header;
+  mpz_t i;
+} Value_Integer; */
+
+typedef struct {
+  Value_header header;
+  double d;
+} Value_Double;
+
+typedef struct {
+  Value_header header;
+  unsigned char c;
+} Value_Char;
+
+typedef struct {
+  Value_header header;
+  char *str;
+} Value_String;
+
+/*
+typedef struct {
+  Value_header header;
+  int32_t total;
+  int32_t tag;
+  char *name;
+  Value **args;
+} Value_Constructor;
+
+typedef struct {
+  Value_header header;
+  int32_t total;
+  int32_t filled;
+  Value **args;
+} Value_Arglist;
+
+typedef Value *(*fun_ptr_t)(Value_Arglist *);
+
+typedef struct {
+  Value_header header;
+  fun_ptr_t f;
+  Value_Arglist *arglist;
+} Value_Closure; */
+
+/*
+typedef struct {
+  Value_header header;
+  int32_t index;
+} Value_IORef; */
+
+typedef struct {
+  Value_header header;
+  void *p;
+} Value_Pointer;
+
+/*
+typedef struct {
+  Value_header header;
+  Value_Pointer *p;
+  Value_Closure *onCollectFct;
+} Value_GCPointer; */
+
+typedef struct {
+  Value_header header;
+  int capacity;
+  Value **arr;
+} Value_Array;
+
+/*
+typedef struct {
+  Value_header header;
+  Buffer *buffer;
+} Value_Buffer;
+
+typedef struct {
+  Value_header header;
+  pthread_mutex_t *mutex;
+} Value_Mutex;
+
+typedef struct {
+  Value_header header;
+  pthread_cond_t *cond;
+} Value_Condition; */
+
+typedef struct {
+  Value **refs;
+  int filled;
+  int total;
+} IORef_Storage;
+
+typedef struct {
+  Value_header header;
+  IORef_Storage *listIORefs;
+} Value_World;
+
