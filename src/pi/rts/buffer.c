@@ -41,8 +41,8 @@ void copyBuffer(void *from, int from_offset, int len, void *to, int to_offset) {
 
 int getBufferSize(void *buffer) { return ((Buffer *)buffer)->size; }
 
-/*
-void setBufferUIntLE(void *b, int loc, uint64_t val, size_t len) {
+
+void setBufferUIntLE(void *b, int loc, uint64_t val, int len) {
   assert_valid_range((Buffer *)b, loc, len);
   while (len--) {
     ((Buffer *)b)->data[loc++] = (uint8_t)val;
@@ -50,7 +50,7 @@ void setBufferUIntLE(void *b, int loc, uint64_t val, size_t len) {
   }
 }
 
-uint64_t getBufferUIntLE(void *b, int loc, size_t len) {
+uint64_t getBufferUIntLE(void *b, int loc, int len) {
   assert_valid_range((Buffer *)b, loc, len);
   uint64_t r = 0;
   loc += len;
@@ -94,6 +94,6 @@ char *getBufferString(void *buffer, int loc, int len) {
   strncpy(rs, s, len);
   rs[len] = '\0';
   return rs;
-} */
+}
 
 
