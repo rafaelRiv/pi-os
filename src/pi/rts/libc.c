@@ -79,6 +79,13 @@ size_t strnlen(const char *s, size_t maxlen) {
   return len;
 }
 
+size_t strlen(const char *s) {
+  size_t len = 0;
+  for (; s[len] != '\0'; ++len)
+    ;
+  return len;
+}
+
 char *
 strrchr (s, c)
      register const char *s;
