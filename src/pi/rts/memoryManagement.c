@@ -30,6 +30,30 @@ Value_Double *makeDouble(double d) {
   return retVal;
 }
 
+Value_Constructor *newConstructor(int total, int tag, const char *name) {
+  Value_Constructor *retVal = IDRIS2_NEW_VALUE(Value_Constructor);
+  retVal->header.tag = CONSTRUCTOR_TAG;
+  retVal->total = total;
+  retVal->tag = tag;
+  int nameLength = strlen(name);
+  retVal->name = malloc(nameLength + 1);
+  memset(retVal->name, 0, nameLength + 1);
+  memcpy(retVal->name, name, nameLength);
+  retVal->args = (Value **)malloc(sizeof(Value *) * total);
+  return retVal;
+}
+
+Value_Closure *makeClosureFromArglist(fun_ptr_t f, Value_Arglist *arglist) {
+  Value_Closure *retVal = IDRIS2_NEW_VALUE(Value_Closure);
+  retVal->header.tag = CLOSURE_TAG;
+  retVal->arglist = arglist; // (Value_Arglist *)newReference((Value*)arglist);
+  retVal->f = f;
+  if (retVal->arglist->filled >= retVal->arglist->total) {
+    retVal->header.tag = COMPLETE_CLOSURE_TAG;
+  }
+  return retVal;
+}
+
 Value_Char *makeChar(char c) {
   Value_Char *retVal = IDRIS2_NEW_VALUE(Value_Char);
   retVal->header.tag = CHAR_TAG;
@@ -136,5 +160,186 @@ void init () {
   char *test = (char *) malloc(15);
   IDRIS2_REFC_VERIFY(test, "malloc failed");
  }
+
+
+Value_GCPointer *makeGCPointer(void *ptr_Raw, Value_Closure *onCollectFct) {
+  Value_GCPointer *p = IDRIS2_NEW_VALUE(Value_GCPointer);
+  p->header.tag = GC_POINTER_TAG;
+  p->p = makePointer(ptr_Raw);
+  p->onCollectFct = onCollectFct;
+  return p;
+}
+
+Value_Buffer *makeBuffer(void *buf) {
+  Value_Buffer *b = IDRIS2_NEW_VALUE(Value_Buffer);
+  b->header.tag = BUFFER_TAG;
+  b->buffer = buf;
+  return b;
+}
+
+Value_Array *makeArray(int length) {
+  Value_Array *a = IDRIS2_NEW_VALUE(Value_Array);
+  a->header.tag = ARRAY_TAG;
+  a->capacity = length;
+  a->arr = (Value **)malloc(sizeof(Value *) * length);
+  memset(a->arr, 0, sizeof(Value *) * length);
+  return a;
+}
+
+Value_World *makeWorld() {
+  Value_World *retVal = IDRIS2_NEW_VALUE(Value_World);
+  retVal->header.tag = WORLD_TAG;
+  return retVal;
+}
+
+Value *newReference(Value *source) {
+  // note that we explicitly allow NULL as source (for erased arguments)
+  if (source) {
+    source->header.refCounter++;
+  }
+  return source;
+}
+
+
+Value *apply_closure(Value *_clos, Value *arg) {
+  // create a new arg list
+  Value_Arglist *oldArgs = ((Value_Closure *)_clos)->arglist;
+  Value_Arglist *newArgs = newArglist(0, oldArgs->total);
+  newArgs->filled = oldArgs->filled + 1;
+  // add argument to new arglist
+  for (int i = 0; i < oldArgs->filled; i++) {
+    newArgs->args[i] = newReference(oldArgs->args[i]);
+  }
+  newArgs->args[oldArgs->filled] = newReference(arg);
+
+  Value_Closure *clos = (Value_Closure *)_clos;
+
+  // check if enough arguments exist
+  if (newArgs->filled >= newArgs->total) {
+    fun_ptr_t f = clos->f;
+    while (1) {
+      Value *retVal = f(newArgs);
+      removeReference((Value *)newArgs);
+      if (!retVal || retVal->header.tag != COMPLETE_CLOSURE_TAG) {
+        return retVal;
+      }
+      f = ((Value_Closure *)retVal)->f;
+      newArgs = ((Value_Closure *)retVal)->arglist;
+      newArgs = (Value_Arglist *)newReference((Value *)newArgs);
+      removeReference(retVal);
+    }
+  }
+
+  return (Value *)makeClosureFromArglist(clos->f, newArgs);
+}
+
+void removeReference(Value *elem) {
+  if (!elem) {
+    return;
+  }
+  IDRIS2_REFC_VERIFY(elem->header.refCounter > 0, "refCounter %lld",
+                     (long long)elem->header.refCounter);
+  // remove reference counter
+  elem->header.refCounter--;
+  if (elem->header.refCounter == 0)
+  // recursively remove all references to all children
+  {
+    switch (elem->header.tag) {
+    case BITS8_TAG:
+    case BITS16_TAG:
+    case BITS32_TAG:
+    case BITS64_TAG:
+    case INT8_TAG:
+    case INT16_TAG:
+    case INT32_TAG:
+    case INT64_TAG:
+    case INTEGER_TAG:
+      /* nothing to delete, added for sake of completeness */
+      break;
+    case DOUBLE_TAG:
+      /* nothing to delete, added for sake of completeness */
+      break;
+    case CHAR_TAG:
+      /* nothing to delete, added for sake of completeness */
+      break;
+    case STRING_TAG:
+      free(((Value_String *)elem)->str);
+      break;
+
+    case CLOSURE_TAG: {
+      Value_Closure *cl = (Value_Closure *)elem;
+      Value_Arglist *al = cl->arglist;
+      removeReference((Value *)al);
+      break;
+    }
+    case COMPLETE_CLOSURE_TAG: {
+      Value_Closure *cl = (Value_Closure *)elem;
+      Value_Arglist *al = cl->arglist;
+      removeReference((Value *)al);
+      break;
+    }
+    case ARGLIST_TAG: {
+      Value_Arglist *al = (Value_Arglist *)elem;
+      for (int i = 0; i < al->filled; i++) {
+        removeReference(al->args[i]);
+      }
+      free(al->args);
+      break;
+    }
+    case CONSTRUCTOR_TAG: {
+      Value_Constructor *constr = (Value_Constructor *)elem;
+      for (int i = 0; i < constr->total; i++) {
+        removeReference(constr->args[i]);
+      }
+      if (constr->name) {
+        free(constr->name);
+      }
+      free(constr->args);
+      break;
+    }
+    case IOREF_TAG:
+      /* nothing to delete, added for sake of completeness */
+      break;
+
+    case BUFFER_TAG: {
+      Value_Buffer *b = (Value_Buffer *)elem;
+      free(b->buffer);
+      break;
+    }
+
+    case ARRAY_TAG: {
+      Value_Array *a = (Value_Array *)elem;
+      for (int i = 0; i < a->capacity; i++) {
+        removeReference(a->arr[i]);
+      }
+      free(a->arr);
+      break;
+    }
+    case POINTER_TAG:
+      /* nothing to delete, added for sake of completeness */
+      break;
+
+    case GC_POINTER_TAG: {
+      /* maybe here we need to invoke onCollectAny */
+      Value_GCPointer *vPtr = (Value_GCPointer *)elem;
+      Value *closure1 =
+          apply_closure((Value *)vPtr->onCollectFct, (Value *)vPtr->p);
+      apply_closure(closure1, NULL);
+      removeReference(closure1);
+      removeReference((Value *)vPtr->onCollectFct);
+      removeReference((Value *)vPtr->p);
+      break;
+    }
+    case WORLD_TAG:
+      /* nothing to delete, added for sake of completeness */
+      break;
+
+    default:
+      break;
+    }
+    // finally, free element
+    free(elem);
+  }
+}
 
 
