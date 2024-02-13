@@ -14,7 +14,8 @@ Value *newValue(size_t size) {
 }
 
 void init () {
-  IDRIS2_REFC_VERIFY(NULL, "malloc failed");
+  char *test = (char *) malloc(15);
+  IDRIS2_REFC_VERIFY(test, "malloc failed");
  }
 
 
