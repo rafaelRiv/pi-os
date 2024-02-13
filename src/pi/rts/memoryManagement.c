@@ -5,6 +5,7 @@
 #include "tiny-malloc.h"
 #include "refc_util.h"
 #include "runtime.h"
+#include "buffer.h"
 
 Value *newValue(size_t size) {
   Value *retVal = (Value *)malloc(size);

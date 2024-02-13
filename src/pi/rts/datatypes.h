@@ -1,5 +1,7 @@
 #pragma once
 
+#include "buffer.h"
+
 #define NO_TAG 0
 #define BITS8_TAG 1
 #define BITS16_TAG 2
@@ -158,13 +160,6 @@ typedef struct {
   int capacity;
   Value **arr;
 } Value_Array;
-
-// TODO: move it to buffer.c
-typedef struct {
-  int size;
-  char data[];
-} Buffer;
-
 
 typedef struct {
   Value_header header;
