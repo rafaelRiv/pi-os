@@ -4,6 +4,7 @@
 #include "../pc/uart.h"
 #include "tiny-malloc.h"
 #include "refc_util.h"
+#include "runtime.h"
 
 Value *newValue(size_t size) {
   Value *retVal = (Value *)malloc(size);
@@ -198,39 +199,6 @@ Value *newReference(Value *source) {
     source->header.refCounter++;
   }
   return source;
-}
-
-
-Value *apply_closure(Value *_clos, Value *arg) {
-  // create a new arg list
-  Value_Arglist *oldArgs = ((Value_Closure *)_clos)->arglist;
-  Value_Arglist *newArgs = newArglist(0, oldArgs->total);
-  newArgs->filled = oldArgs->filled + 1;
-  // add argument to new arglist
-  for (int i = 0; i < oldArgs->filled; i++) {
-    newArgs->args[i] = newReference(oldArgs->args[i]);
-  }
-  newArgs->args[oldArgs->filled] = newReference(arg);
-
-  Value_Closure *clos = (Value_Closure *)_clos;
-
-  // check if enough arguments exist
-  if (newArgs->filled >= newArgs->total) {
-    fun_ptr_t f = clos->f;
-    while (1) {
-      Value *retVal = f(newArgs);
-      removeReference((Value *)newArgs);
-      if (!retVal || retVal->header.tag != COMPLETE_CLOSURE_TAG) {
-        return retVal;
-      }
-      f = ((Value_Closure *)retVal)->f;
-      newArgs = ((Value_Closure *)retVal)->arglist;
-      newArgs = (Value_Arglist *)newReference((Value *)newArgs);
-      removeReference(retVal);
-    }
-  }
-
-  return (Value *)makeClosureFromArglist(clos->f, newArgs);
 }
 
 void removeReference(Value *elem) {
