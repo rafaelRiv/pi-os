@@ -813,3 +813,10 @@ Value *cast_Integer_to_string(Value *input) {
 
   return (Value *)retVal;
 } */
+
+/*  conversions from Bits64  */
+Value *cast_Integer_to_string(Value *input) {
+  Value_Integer *from = (Value_Integer *)input;
+  return (Value *)makeInteger((int)from->i);
+}
+
