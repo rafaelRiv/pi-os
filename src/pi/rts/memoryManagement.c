@@ -158,12 +158,6 @@ Value_Pointer *makePointer(void *ptr_Raw) {
   return p;
 }
 
-void init () {
-  char *test = (char *) malloc(15);
-  IDRIS2_REFC_VERIFY(test, "malloc failed");
- }
-
-
 Value_GCPointer *makeGCPointer(void *ptr_Raw, Value_Closure *onCollectFct) {
   Value_GCPointer *p = IDRIS2_NEW_VALUE(Value_GCPointer);
   p->header.tag = GC_POINTER_TAG;

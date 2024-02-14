@@ -18,4 +18,4 @@ all:
 	riscv64-unknown-elf-ld -T linker.ld -nostdlib kernel.o asm/mem.o asm/trap.o asm/entry.o rts/tiny-malloc.o rts/libc.o rts/util.o rts/refc_util.o rts/runtime.o rts/buffer.o rts/cast.o rts/prim.o pc/uart.o rts/math.o rts/stringOps.o rts/memoryManagement.o -o kernel.elf
 
 clean:
-	rm *.o *.elf rts/*.o asm/*.o int
+	rm *.o *.elf rts/*.o asm/*.o pc/*.o

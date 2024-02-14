@@ -13,6 +13,10 @@ void print(const char * str) {
 	return;
 }
 
+void idris2_putStr(const char * str) {
+  print(str);
+}
+
 void print_address_hex(void* p0) {
     int i;
     int p = (int)p0;

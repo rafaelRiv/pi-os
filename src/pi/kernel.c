@@ -23,8 +23,6 @@ Value *PrimIO_unsafeCreateWorld
 
 Value *PrimIO_unsafeCreateWorld_arglist(Value_Arglist* arglist);
 
-
-
 Value *PrimIO_unsafePerformIO_0
 (
     Value * var_0
@@ -559,22 +557,11 @@ Value *PrimIO_unsafeCreateWorld_arglist(Value_Arglist* arglist)
         );
 }
 
-
-
-// main function
-
-/*
-int main(int argc, char *argv[])
+int kmain(void)
 {
-    idris2_setArgs(argc, argv);
+ //   idris2_setArgs(argc, argv);
     global_IORef_Storage = NULL;
     Value *mainExprVal = __mainExpression_0();
     trampoline(mainExprVal);
-    return 0; // bye bye
-} */
-
-
-void kmain(void) {
-  print("execute kmain\n");
-  init();
 }
+
