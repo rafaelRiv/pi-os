@@ -121,17 +121,20 @@ Value_Int64 *makeInt64(int64_t i) {
 
 Value_Int8 *makeBool(int p) { return makeInt8(p ? 1 : 0); }
 
-Value_Integer *makeInteger(int i) {
+
+Value_Integer *makeInteger() {
   Value_Integer *retVal = IDRIS2_NEW_VALUE(Value_Integer);
   retVal->header.tag = INTEGER_TAG;
-  retVal->i = i;
+  mpz_init(retVal->i);
   return retVal;
 }
 
 Value_Integer *makeIntegerLiteral(char *i) {
-  Value_Integer *retVal = makeInteger((int)*i);
+  Value_Integer *retVal = makeInteger();
+  mpz_set_str(retVal->i, i, 10);
   return retVal;
 }
+
 
 Value_String *makeEmptyString(size_t l) {
   Value_String *retVal = IDRIS2_NEW_VALUE(Value_String);

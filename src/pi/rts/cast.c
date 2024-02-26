@@ -1,4 +1,5 @@
 #include "cast.h"
+#include "memoryManagement.h"
 
 /*  conversions from Int8  */
 Value *cast_Int8_to_Bits8(Value *input) {
@@ -803,7 +804,7 @@ Value *cast_Integer_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)mpz_get_lsb(from->i, 8));
 } */
 
-/*
+
 Value *cast_Integer_to_string(Value *input) {
   Value_Integer *from = (Value_Integer *)input;
 
@@ -812,11 +813,11 @@ Value *cast_Integer_to_string(Value *input) {
   retVal->str = mpz_get_str(NULL, 10, from->i);
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Bits64  */
-Value *cast_Integer_to_string(Value *input) {
+/*Value *cast_Integer_to_string(Value *input) {
   Value_Integer *from = (Value_Integer *)input;
   return (Value *)makeInteger((int)from->i);
-}
+} */
 

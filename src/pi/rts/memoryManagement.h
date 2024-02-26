@@ -26,7 +26,7 @@ Value_Int16 *makeInt16(int16_t i);
 Value_Int32 *makeInt32(int32_t i);
 Value_Int64 *makeInt64(int64_t i);
 Value_Int8 *makeBool(int p);
-Value_Integer *makeInteger(int i);
+Value_Integer *makeInteger();
 Value_Integer *makeIntegerLiteral(char *i);
 Value_String *makeEmptyString(size_t l);
 Value_String *makeString(char *);
