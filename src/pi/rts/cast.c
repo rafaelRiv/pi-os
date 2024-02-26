@@ -793,7 +793,7 @@ Value *cast_Integer_to_Int64(Value *input) {
   Value_Integer *from = (Value_Integer *)input;
   return (Value *)makeInt64((int64_t)mpz_get_lsb(from->i, 64));
 }
-
+ 
 Value *cast_Integer_to_double(Value *input) {
   Value_Integer *from = (Value_Integer *)input;
   return (Value *)makeDouble(mpz_get_d(from->i));

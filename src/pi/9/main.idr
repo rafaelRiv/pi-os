@@ -1,9 +1,8 @@
 module Main
 
+%foreign "C:print"
+print : String -> PrimIO ()
+
 main : IO ()
-main =
-  let t = 2+10
-  in do
-    putStrLn "Hello from Idris2" 
-    putStrLn $ show t
+main = primIO $ print "Hello from Idris2"
 
