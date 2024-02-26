@@ -1,6 +1,7 @@
 #pragma once
 
 #include "buffer.h"
+#include "mini-gmp.h"
 
 #define NO_TAG 0
 #define BITS8_TAG 1
@@ -97,10 +98,18 @@ typedef struct {
   int64_t i64;
 } Value_Int64;
 
+/*
 typedef struct {
   Value_header header;
   int i;
+} Value_Integer; */
+
+
+typedef struct {
+  Value_header header;
+  mpz_t i;
 } Value_Integer;
+
 
 typedef struct {
   Value_header header;

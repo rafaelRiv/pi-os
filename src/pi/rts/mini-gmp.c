@@ -44,7 +44,7 @@ see https://www.gnu.org/licenses/.  */
 #include "mini-gmp.h"
 
 
-# define CHAR_BIT 255
+# define CHAR_BIT 8
 
 #ifdef KERNEL
 # define CHAR_BIT BITS_PER_BYTE
@@ -4023,6 +4023,7 @@ mpz_sizeinbase (const mpz_t u, int base)
   up = u->_mp_d;
 
   bits = (un - 1) * GMP_LIMB_BITS + mpn_limb_size_in_base_2 (up[un-1]);
+
   switch (base)
     {
     case 2:
@@ -4038,6 +4039,7 @@ mpz_sizeinbase (const mpz_t u, int base)
       /* FIXME: Do something more clever for the common case of base
 	 10. */
     }
+
 
   tp = gmp_xalloc_limbs (un);
   mpn_copyi (tp, up, un);
@@ -4059,6 +4061,7 @@ mpz_sizeinbase (const mpz_t u, int base)
 char *
 mpz_get_str (char *sp, int base, const mpz_t u)
 {
+
   unsigned bits;
   const char *digits;
   mp_size_t un;
@@ -4079,6 +4082,7 @@ mpz_get_str (char *sp, int base, const mpz_t u)
     return NULL;
 
   sn = 1 + mpz_sizeinbase (u, base);
+
   if (!sp)
     sp = (char *) gmp_xalloc (1 + sn);
 
@@ -4118,6 +4122,7 @@ mpz_get_str (char *sp, int base, const mpz_t u)
     sp[i] = digits[(unsigned char) sp[i]];
 
   sp[sn] = '\0';
+
   return sp;
 }
 
