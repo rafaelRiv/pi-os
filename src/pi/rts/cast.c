@@ -38,7 +38,6 @@ Value *cast_Int8_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->i8);
 }
 
-/*
 Value *cast_Int8_to_Integer(Value *input) {
   Value_Int8 *from = (Value_Int8 *)input;
 
@@ -46,7 +45,7 @@ Value *cast_Int8_to_Integer(Value *input) {
   mpz_set_si(retVal->i, from->i8);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Int8_to_double(Value *input) {
   Value_Int8 *from = (Value_Int8 *)input;
@@ -105,7 +104,6 @@ Value *cast_Int16_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->i16);
 }
 
-/*
 Value *cast_Int16_to_Integer(Value *input) {
   Value_Int16 *from = (Value_Int16 *)input;
 
@@ -113,7 +111,7 @@ Value *cast_Int16_to_Integer(Value *input) {
   mpz_set_si(retVal->i, from->i16);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Int16_to_double(Value *input) {
   Value_Int16 *from = (Value_Int16 *)input;
@@ -172,7 +170,6 @@ Value *cast_Int32_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->i32);
 }
 
-/*
 Value *cast_Int32_to_Integer(Value *input) {
   Value_Int32 *from = (Value_Int32 *)input;
 
@@ -180,7 +177,7 @@ Value *cast_Int32_to_Integer(Value *input) {
   mpz_set_si(retVal->i, from->i32);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Int32_to_double(Value *input) {
   Value_Int32 *from = (Value_Int32 *)input;
@@ -244,7 +241,6 @@ Value *cast_Int64_to_Int64(Value *input) {
   return newReference(input);
 }
 
-/*
 Value *cast_Int64_to_Integer(Value *input) {
   Value_Int64 *from = (Value_Int64 *)input;
 
@@ -252,7 +248,7 @@ Value *cast_Int64_to_Integer(Value *input) {
   mpz_set_si(retVal->i, from->i64);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Int64_to_double(Value *input) {
   Value_Int64 *from = (Value_Int64 *)input;
@@ -305,7 +301,7 @@ Value *cast_double_to_Int16(Value *input) {
   Value_Double *from = (Value_Double *)input;
   return (Value *)makeInt16((int16_t)from->d);
 }
-/*
+
 Value *cast_double_to_Int32(Value *input) {
   Value_Double *from = (Value_Double *)input;
   return (Value *)makeInt32((int32_t)from->d);
@@ -314,9 +310,8 @@ Value *cast_double_to_Int32(Value *input) {
 Value *cast_double_to_Int64(Value *input) {
   Value_Double *from = (Value_Double *)input;
   return (Value *)makeInt64((int64_t)from->d);
-} */
+}
 
-/*
 Value *cast_double_to_Integer(Value *input) {
   Value_Double *from = (Value_Double *)input;
 
@@ -324,7 +319,7 @@ Value *cast_double_to_Integer(Value *input) {
   mpz_set_d(retVal->i, from->d);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_double_to_char(Value *input) {
   Value_Double *from = (Value_Double *)input;
@@ -381,7 +376,6 @@ Value *cast_char_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->c);
 }
 
-/*
 Value *cast_char_to_Integer(Value *input) {
   Value_Char *from = (Value_Char *)input;
 
@@ -389,7 +383,7 @@ Value *cast_char_to_Integer(Value *input) {
   mpz_set_si(retVal->i, from->c);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_char_to_double(Value *input) {
   Value_Char *from = (Value_Char *)input;
@@ -446,7 +440,7 @@ Value *cast_string_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)atoi(from->str));
 } */
 
-/*
+
 Value *cast_string_to_Integer(Value *input) {
   Value_String *from = (Value_String *)input;
 
@@ -454,7 +448,7 @@ Value *cast_string_to_Integer(Value *input) {
   mpz_set_str(retVal->i, from->str, 10);
 
   return (Value *)retVal;
-} */
+}
 
 /*
 Value *cast_string_to_double(Value *input) {
@@ -466,6 +460,8 @@ Value *cast_string_to_double(Value *input) {
   return (Value *)retVal;
 }
 
+*/
+
 Value *cast_string_to_char(Value *input) {
   Value_Char *retVal = IDRIS2_NEW_VALUE(Value_Char);
   retVal->header.tag = CHAR_TAG;
@@ -473,7 +469,7 @@ Value *cast_string_to_char(Value *input) {
   retVal->c = from->str[0];
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Bits8  */
 Value *cast_Bits8_to_Bits16(Value *input) {
@@ -511,7 +507,6 @@ Value *cast_Bits8_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->ui8);
 }
 
-/*
 Value *cast_Bits8_to_Integer(Value *input) {
   Value_Bits8 *from = (Value_Bits8 *)input;
 
@@ -519,7 +514,7 @@ Value *cast_Bits8_to_Integer(Value *input) {
   mpz_set_ui(retVal->i, from->ui8);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Bits8_to_double(Value *input) {
   Value_Bits8 *from = (Value_Bits8 *)input;
@@ -578,7 +573,6 @@ Value *cast_Bits16_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->ui16);
 }
 
-/*
 Value *cast_Bits16_to_Integer(Value *input) {
   Value_Bits16 *from = (Value_Bits16 *)input;
 
@@ -586,7 +580,7 @@ Value *cast_Bits16_to_Integer(Value *input) {
   mpz_set_ui(retVal->i, from->ui16);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Bits16_to_double(Value *input) {
   Value_Bits16 *from = (Value_Bits16 *)input;
@@ -645,7 +639,6 @@ Value *cast_Bits32_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->ui32);
 }
 
-/*
 Value *cast_Bits32_to_Integer(Value *input) {
   Value_Bits32 *from = (Value_Bits32 *)input;
 
@@ -653,7 +646,7 @@ Value *cast_Bits32_to_Integer(Value *input) {
   mpz_set_ui(retVal->i, from->ui32);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Bits32_to_double(Value *input) {
   Value_Bits32 *from = (Value_Bits32 *)input;
@@ -712,7 +705,7 @@ Value *cast_Bits64_to_Int64(Value *input) {
   return (Value *)makeInt64((int64_t)from->ui64);
 }
 
-/*
+
 Value *cast_Bits64_to_Integer(Value *input) {
   Value_Bits64 *from = (Value_Bits64 *)input;
 
@@ -720,7 +713,7 @@ Value *cast_Bits64_to_Integer(Value *input) {
   mpz_set_ui(retVal->i, from->ui64);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_Bits64_to_double(Value *input) {
   Value_Bits64 *from = (Value_Bits64 *)input;
@@ -744,7 +737,7 @@ Value *cast_Bits64_to_string(Value *input) {
 } */
  
 /*  conversions from Integer */
-/*
+
 uint64_t mpz_get_lsb(mpz_t i, mp_bitcnt_t b) {
   mpz_t r;
   mpz_init(r);
@@ -802,8 +795,7 @@ Value *cast_Integer_to_double(Value *input) {
 Value *cast_Integer_to_char(Value *input) {
   Value_Integer *from = (Value_Integer *)input;
   return (Value *)makeChar((unsigned char)mpz_get_lsb(from->i, 8));
-} */
-
+}
 
 Value *cast_Integer_to_string(Value *input) {
   Value_Integer *from = (Value_Integer *)input;
