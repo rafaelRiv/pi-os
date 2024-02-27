@@ -399,7 +399,6 @@ Value *cast_char_to_string(Value *input) {
   return (Value *)retVal;
 }
 
-/*
 Value *cast_string_to_Bits8(Value *input) {
   Value_String *from = (Value_String *)input;
   return (Value *)makeBits8((uint8_t)atoi(from->str));
@@ -438,8 +437,7 @@ Value *cast_string_to_Int32(Value *input) {
 Value *cast_string_to_Int64(Value *input) {
   Value_String *from = (Value_String *)input;
   return (Value *)makeInt64((int64_t)atoi(from->str));
-} */
-
+}
 
 Value *cast_string_to_Integer(Value *input) {
   Value_String *from = (Value_String *)input;
@@ -450,17 +448,14 @@ Value *cast_string_to_Integer(Value *input) {
   return (Value *)retVal;
 }
 
-/*
 Value *cast_string_to_double(Value *input) {
   Value_Double *retVal = IDRIS2_NEW_VALUE(Value_Double);
   retVal->header.tag = DOUBLE_TAG;
   Value_String *from = (Value_String *)input;
-  retVal->d = atof(from->str);
+  retVal->d = atof_hop(from->str);
 
   return (Value *)retVal;
 }
-
-*/
 
 Value *cast_string_to_char(Value *input) {
   Value_Char *retVal = IDRIS2_NEW_VALUE(Value_Char);

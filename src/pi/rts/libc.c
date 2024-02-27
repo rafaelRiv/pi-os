@@ -140,3 +140,13 @@ double atof_hop(char *s)
   }
   return a;
 }
+
+int atoi(char* str)
+{
+    int res = 0;
+ 
+    for (int i = 0; str[i] != '\0'; ++i)
+        res = res * 10 + str[i] - '0';
+ 
+    return res;
+}
