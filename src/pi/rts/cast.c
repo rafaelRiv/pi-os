@@ -1,5 +1,16 @@
 #include "cast.h"
 #include "memoryManagement.h"
+#include "printf.h"
+
+#define	PRId8			"d"		/* int8_t */
+#define	PRId16			"d"		/* int16_t */
+#define	PRId32			"d"		/* int32_t */
+#define	PRId64			"lld"		/* int64_t */
+
+#define	PRIu8			"u"		/* uint8_t */
+#define	PRIu16			"u"		/* uint16_t */
+#define	PRIu32			"u"		/* uint32_t */
+#define	PRIu64			"llu"		/* uint64_t */
 
 /*  conversions from Int8  */
 Value *cast_Int8_to_Bits8(Value *input) {
@@ -57,7 +68,6 @@ Value *cast_Int8_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->i8);
 }
 
-/*
 Value *cast_Int8_to_string(Value *input) {
   Value_Int8 *from = (Value_Int8 *)input;
 
@@ -66,7 +76,7 @@ Value *cast_Int8_to_string(Value *input) {
   sprintf(retVal->str, "%" PRId8 "", from->i8);
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Int16  */
 Value *cast_Int16_to_Bits8(Value *input) {
@@ -123,7 +133,6 @@ Value *cast_Int16_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->i16);
 }
 
-/*
 Value *cast_Int16_to_string(Value *input) {
   Value_Int16 *from = (Value_Int16 *)input;
 
@@ -132,7 +141,7 @@ Value *cast_Int16_to_string(Value *input) {
   sprintf(retVal->str, "%" PRId16 "", from->i16);
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Int32  */
 Value *cast_Int32_to_Bits8(Value *input) {
@@ -189,7 +198,6 @@ Value *cast_Int32_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->i32);
 }
 
-/*
 Value *cast_Int32_to_string(Value *input) {
   Value_Int32 *from = (Value_Int32 *)input;
 
@@ -198,7 +206,7 @@ Value *cast_Int32_to_string(Value *input) {
   sprintf(retVal->str, "%" PRId32 "", from->i32);
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Int64  */
 Value *cast_Int64_to_Bits8(Value *input) {
@@ -260,7 +268,6 @@ Value *cast_Int64_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->i64);
 }
 
-/*
 Value *cast_Int64_to_string(Value *input) {
   Value_Int64 *from = (Value_Int64 *)input;
 
@@ -269,7 +276,7 @@ Value *cast_Int64_to_string(Value *input) {
   sprintf(retVal->str, "%" PRId64 "", from->i64);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_double_to_Bits8(Value *input) {
   Value_Double *from = (Value_Double *)input;
@@ -325,7 +332,7 @@ Value *cast_double_to_char(Value *input) {
   Value_Double *from = (Value_Double *)input;
   return (Value *)makeChar((unsigned char)from->d);
 }
-/*
+
 Value *cast_double_to_string(Value *input) {
   Value_Double *from = (Value_Double *)input;
 
@@ -334,7 +341,7 @@ Value *cast_double_to_string(Value *input) {
   sprintf(retVal->str, "%f", from->d);
 
   return (Value *)retVal;
-} */
+}
 
 Value *cast_char_to_Bits8(Value *input) {
   Value_Char *from = (Value_Char *)input;
@@ -521,7 +528,6 @@ Value *cast_Bits8_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->ui8);
 }
 
-/*
 Value *cast_Bits8_to_string(Value *input) {
   Value_Bits8 *from = (Value_Bits8 *)input;
 
@@ -530,7 +536,7 @@ Value *cast_Bits8_to_string(Value *input) {
   sprintf(retVal->str, "%" PRIu8 "", from->ui8);
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Bits16  */
 Value *cast_Bits16_to_Bits8(Value *input) {
@@ -587,7 +593,6 @@ Value *cast_Bits16_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->ui16);
 }
 
-/*
 Value *cast_Bits16_to_string(Value *input) {
   Value_Bits16 *from = (Value_Bits16 *)input;
 
@@ -596,7 +601,7 @@ Value *cast_Bits16_to_string(Value *input) {
   sprintf(retVal->str, "%" PRIu16 "", from->ui16);
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Bits32  */
 Value *cast_Bits32_to_Bits8(Value *input) {
@@ -653,7 +658,6 @@ Value *cast_Bits32_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->ui32);
 }
 
-/*
 Value *cast_Bits32_to_string(Value *input) {
   Value_Bits32 *from = (Value_Bits32 *)input;
 
@@ -662,7 +666,7 @@ Value *cast_Bits32_to_string(Value *input) {
   sprintf(retVal->str, "%" PRIu32 "", from->ui32);
 
   return (Value *)retVal;
-} */
+}
 
 /*  conversions from Bits64  */
 Value *cast_Bits64_to_Bits8(Value *input) {
@@ -720,7 +724,6 @@ Value *cast_Bits64_to_char(Value *input) {
   return (Value *)makeChar((unsigned char)from->ui64);
 }
 
-/*
 Value *cast_Bits64_to_string(Value *input) {
   Value_Bits64 *from = (Value_Bits64 *)input;
 
@@ -729,7 +732,7 @@ Value *cast_Bits64_to_string(Value *input) {
   sprintf(retVal->str, "%" PRIu64 "", from->ui64);
 
   return (Value *)retVal;
-} */
+}
  
 /*  conversions from Integer */
 
