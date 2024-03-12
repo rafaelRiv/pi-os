@@ -106,13 +106,67 @@ Value *arraySet(Value *erased, Value *_array, Value *_index, Value *v,
   removeReference(a->arr[((Value_Int64 *)_index)->i64]);
   a->arr[((Value_Int64 *)_index)->i64] = newReference(v);
   return NULL;
-}
+} */
 
 //
 // -----------------------------------
 //      Pointer operations
 // -----------------------------------
+void idris_primitive_memcpy( void *dst, ptrdiff_t doff, void *src, ptrdiff_t soff, size_t len )
+{
+  memcpy( (char *)dst + doff, (char *)src + soff, len );
+}
 
+void idris_primitive_memmove( void *dst, ptrdiff_t doff, void *src, ptrdiff_t soff, size_t len )
+{
+  memmove( (char *)dst + doff, (char *)src + soff, len );
+}
+
+void* idris_plusAddr(Value* var_1, void *p, int offset)
+{
+  p += offset;
+  return p;
+}
+
+int idris2_isNull(void *ptr) { return (ptr == NULL); }
+
+void *idris2_getNull() { return NULL; }
+
+#define MEMSET(TYPE, ATYPE)                                                  \
+void idris_primitive_memset_ ## TYPE (Idris ## TYPE *p, ptrdiff_t off, size_t n, ATYPE x) \
+{ \
+  p += off;                                                                  \
+  if (x == 0)                                                                \
+    memset(p, 0, n * sizeof(Idris ## TYPE));                                    \
+  else if (sizeof(Idris ## TYPE) == sizeof(int)*2) {                            \
+    int *q = (int *)p;                                                       \
+    const int *r = (const int *)(void *)&x;                                  \
+    while (n>0) {                                                            \
+      q[0] = r[0];                                                           \
+      q[1] = r[1];                                                           \
+      q += 2;                                                                \
+      --n;                                                                   \
+    }                                                                        \
+  }                                                                          \
+  else {                                                                     \
+    while (n>0) {                                                            \
+      *p++ = x;                                                              \
+      --n;                                                                   \
+    }                                                                        \
+  }                                                                          \
+}
+
+/* MEMSET(IdrisWord8, IdrisWord) */
+MEMSET(Word16, IdrisWord16)
+MEMSET(Word32, IdrisWord32)
+MEMSET(Word64, IdrisWord64)
+MEMSET(Word, IdrisWord)
+MEMSET(Ptr, IdrisPtr)
+MEMSET(Float, IdrisFloat)
+MEMSET(Double, IdrisDouble)
+MEMSET(Char, IdrisChar)
+
+/*
 Value *onCollect(Value *_erased, Value *_anyPtr, Value *_freeingFunction,
                  Value *_world) {
   Value_GCPointer *retVal = IDRIS2_NEW_VALUE(Value_GCPointer);
@@ -128,7 +182,7 @@ Value *onCollectAny(Value *_anyPtr, Value *_freeingFunction, Value *_world) {
   retVal->p = (Value_Pointer *)newReference(_anyPtr);
   retVal->onCollectFct = (Value_Closure *)newReference(_freeingFunction);
   return (Value *)retVal;
-}
+} */
 
-Value *voidElim(Value *erased1, Value *erased2) { return NULL; } */
+Value *voidElim(Value *erased1, Value *erased2) { return NULL; }
 

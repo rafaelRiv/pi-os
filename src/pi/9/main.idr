@@ -1,13 +1,23 @@
 module Main
 
-%foreign "C:print"
-println : String -> PrimIO ()
+%foreign "C:idris_primitive_memset_Char"
+setWideCharOffAddr: Ptr Char -> Int -> Int -> Char -> PrimIO ()
 
-test : Int -> Int -> Int
-test x y = x + y
+%foreign "C:idris_plusAddr"
+plusPtr: Ptr a -> Int -> Ptr a
+
+UART : Ptr Char
+UART = plusPtr (prim__castPtr prim__getNullAnyPtr) 0x10000000
+
+println: List Char -> IO ()
+println [] = primIO $ setWideCharOffAddr UART  0 1 '\n'
+println(x :: xs) = do
+  primIO $ setWideCharOffAddr UART  0 1 x
+  println xs
 
 main : IO ()
 main = do
-  primIO $ println "Hello from Idris2\n"
-  primIO $ println (show (test 2 10))
+  println $ unpack "Hello from Idris2 on bare metal"
+  println $ unpack "For this example, we will concact two simple lists"
+  println $ unpack (show $ [1,2,3,4] ++ [5,6,7,8])
 
