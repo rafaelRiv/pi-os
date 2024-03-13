@@ -1,5 +1,5 @@
 all:
-	idris2 --cg refc pc/main.idr -o kernel
+	pack build pi.ipkg 
 	sed -i 's/#include <runtime.h>/#include "rts\/buffer.h"\n#include "rts\/cast.h"\n#include "rts\/printf.h"\n#include "rts\/prim.h"\n#include "rts\/stringOps.h"\n#include "rts\/cBackend.h"\n#include "rts\/datatypes.h"\n#include "rts\/conCaseHelper.h"\n#include "rts\/math.h"\n#include "rts\/memoryManagement.h"\n#include "rts\/refc_util.h"\n#include "rts\/runtime.h"\n#include "rts\/stringOps.h"\n#include "rts\/tiny-malloc.h"\n#include "rts\/util.h"/g' build/exec/kernel.c
 	sed -i 's/#include <idris_support.h>//g' build/exec/kernel.c
 	sed -i 's/int main(int argc, char \*argv\[\])/int kmain\(\)/g' build/exec/kernel.c
