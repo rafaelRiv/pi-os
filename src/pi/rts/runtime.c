@@ -1,12 +1,11 @@
 #include "memoryManagement.h"
 #include "math.h"
 #include "stringOps.h"
-#include "../pc/uart.h"
 #include "tiny-malloc.h"
 #include "refc_util.h"
 
 void missing_ffi() {
-  print("Foreign function declared, but not defined.\nCannot call missing FFI - aborting.\n");
+ // print("Foreign function declared, but not defined.\nCannot call missing FFI - aborting.\n");
   exit();
 }
 

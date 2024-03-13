@@ -2,7 +2,6 @@
 #include "cBackend.h"
 #include "datatypes.h"
 #include "stringOps.h"
-#include "../pc/uart.h"
 #include "tiny-malloc.h"
 #include "refc_util.h"
 #include "runtime.h"
@@ -73,7 +72,7 @@ Value *sysCodegen(void) { return (Value *)makeString("refc"); }
 
 Value *idris2_crash(Value *msg) {
   Value_String *str = (Value_String *)msg;
-  print(str->str);
+//  print(str->str);
   exit(-1);
 }
 
@@ -122,15 +121,18 @@ void idris_primitive_memmove( void *dst, ptrdiff_t doff, void *src, ptrdiff_t so
   memmove( (char *)dst + doff, (char *)src + soff, len );
 }
 
-void* idris_plusAddr(Value* var_1, void *p, int offset)
-{
-  p += offset;
-  return p;
-}
-
 int idris2_isNull(void *ptr) { return (ptr == NULL); }
 
 void *idris2_getNull() { return NULL; }
+
+#define PLUSPTR(TYPE)                                                  \
+TYPE* idris_plusAddr_ ## TYPE (TYPE *p, IdrisWord32 offset) \
+{ \
+  p += offset; \
+  return p; \
+}
+
+PLUSPTR(IdrisChar)
 
 #define MEMSET(TYPE, ATYPE)                                                  \
 void idris_primitive_memset_ ## TYPE (Idris ## TYPE *p, ptrdiff_t off, size_t n, ATYPE x) \

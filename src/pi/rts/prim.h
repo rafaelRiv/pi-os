@@ -25,7 +25,6 @@ typedef int32_t IdrisWord32;
 typedef int64_t IdrisWord64;
 typedef uint64_t IdrisWord;
 
-
 typedef void* IdrisPtr; 
 typedef float IdrisFloat;
 typedef double  IdrisDouble;
@@ -33,11 +32,12 @@ typedef char  IdrisChar;
 
 void idris_primitive_memcpy(void *dst, ptrdiff_t doff, void *src, ptrdiff_t soff, size_t len);
 void idris_primitive_memmove(void *dst, ptrdiff_t doff, void *src, ptrdiff_t soff, size_t len);
-void* idris_plusAddr(Value* var_1, void *p, int offset);
-int idris2_isNull(void *);
 
-// Returns a NULL
+int idris2_isNull(void *);
 void *idris2_getNull();
+
+IdrisChar* idris_plusAddr_IdrisChar(IdrisChar *p, IdrisWord32 offset);
+
 /*int  hsprimitive_memcmp(HsWord8 *s1, HsWord8 *s2, size_t n);
 int  hsprimitive_memcmp_offset(HsWord8 *s1, HsInt off1, HsWord8 *s2, HsInt off2, size_t n);
 */

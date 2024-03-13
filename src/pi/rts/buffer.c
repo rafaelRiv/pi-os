@@ -3,7 +3,6 @@
 #include "memoryManagement.h"
 #include "math.h"
 #include "stringOps.h"
-#include "../pc/uart.h"
 #include "tiny-malloc.h"
 #include "refc_util.h"
 

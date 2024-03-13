@@ -3,11 +3,20 @@ module Main
 %foreign "C:idris_primitive_memset_Char"
 setWideCharOffAddr: Ptr Char -> Int -> Int -> Char -> PrimIO ()
 
-%foreign "C:idris_plusAddr"
-plusPtr: Ptr a -> Int -> Ptr a
+%foreign "C:idris_plusAddr_IdrisChar"
+plusPtrChar: Ptr Char -> Bits32 -> Ptr Char
+
+interface Pointer a where
+    plusPtr : Ptr a -> Bits32 -> Ptr a
+
+Pointer Char where
+  plusPtr = plusPtrChar
 
 UART : Ptr Char
-UART = plusPtr (prim__castPtr prim__getNullAnyPtr) 0x10000000
+UART = plusPtr nullPtr 0x10000000
+  where 
+    nullPtr: Ptr Char
+    nullPtr = (prim__castPtr prim__getNullAnyPtr)
 
 println: String -> IO ()
 println xs = println' (unpack xs)

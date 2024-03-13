@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../pc/uart.h"
 #include "util.h"
 
 // Crash is the condition is false.
