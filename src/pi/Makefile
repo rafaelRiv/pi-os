@@ -20,6 +20,7 @@ all:
 	${CC} ${CFLAGS} kernel.c -o kernel.o -ffreestanding
 	$(MAKE) rts
 	$(MAKE) pc
+	riscv64-unknown-elf-ld -T pc/linker.ld -nostdlib kernel.o  $(PCOBJS) $(RTSOBJS) -o kernel.elf
 
 rts: $(RTSOBJS)
 
@@ -32,4 +33,3 @@ pc/%.o: %.s
 clean:
 	rm *.o *.elf rts/*.o pc/*.o kernel.c
 	rm -rf build
-	rm kernel.elf
