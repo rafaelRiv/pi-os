@@ -1,3 +1,5 @@
+#pragma once
+
 #include "cBackend.h"
 
 typedef struct {

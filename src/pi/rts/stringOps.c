@@ -1,11 +1,4 @@
 #include "stringOps.h"
-#include "memoryManagement.h"
-#include "math.h"
-#include "stringOps.h"
-#include "tiny-malloc.h"
-#include "refc_util.h"
-#include "runtime.h"
-#include "buffer.h"
 
 void toString(char str[], int num)
 {

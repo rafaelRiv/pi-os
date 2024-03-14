@@ -1,7 +1,17 @@
-#ifndef __CASTS_H__
-#define __CASTS_H__
+#pragma once
 
 #include "cBackend.h"
+#include "printf.h"
+
+#define	PRId8			"d"		/* int8_t */
+#define	PRId16			"d"		/* int16_t */
+#define	PRId32			"d"		/* int32_t */
+#define	PRId64			"lld"		/* int64_t */
+
+#define	PRIu8			"u"		/* uint8_t */
+#define	PRIu16			"u"		/* uint16_t */
+#define	PRIu32			"u"		/* uint32_t */
+#define	PRIu64			"llu"		/* uint64_t */
 
 Value *cast_i32_to_Bits8(Value *);
 Value *cast_i32_to_Bits16(Value *);
@@ -81,4 +91,3 @@ Value *cast_Bits64_to_double(Value *input);
 Value *cast_Bits64_to_char(Value *input);
 Value *cast_Bits64_to_string(Value *input);
 
-#endif

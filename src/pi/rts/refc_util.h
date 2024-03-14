@@ -1,7 +1,5 @@
 #pragma once
 
-#include "util.h"
-
 // Crash is the condition is false.
 #define IDRIS2_REFC_VERIFY(cond, ...)                                          \
   do {                                                                         \
@@ -14,4 +12,5 @@
 void idris2_refc_verify_failed(const char *ptr, const char *line,  const char *cond,
                                const char *fmt, ...);
 
+void exit();
 

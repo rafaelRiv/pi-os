@@ -1,12 +1,4 @@
 #include "prim.h"
-#include "cBackend.h"
-#include "datatypes.h"
-#include "stringOps.h"
-#include "tiny-malloc.h"
-#include "refc_util.h"
-#include "runtime.h"
-#include "buffer.h"
-#include "memoryManagement.h"
 
 IORef_Storage *newIORef_Storage(int capacity) {
   IORef_Storage *retVal = (IORef_Storage *)malloc(sizeof(IORef_Storage));

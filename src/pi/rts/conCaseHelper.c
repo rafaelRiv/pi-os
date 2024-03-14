@@ -1,5 +1,4 @@
 #include "conCaseHelper.h"
-#include "refc_util.h"
 
 AConAlt *newConstructorField(int nr) {
   AConAlt *retVal = (AConAlt *)malloc(nr * sizeof(AConAlt));

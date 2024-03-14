@@ -1,16 +1,4 @@
 #include "cast.h"
-#include "memoryManagement.h"
-#include "printf.h"
-
-#define	PRId8			"d"		/* int8_t */
-#define	PRId16			"d"		/* int16_t */
-#define	PRId32			"d"		/* int32_t */
-#define	PRId64			"lld"		/* int64_t */
-
-#define	PRIu8			"u"		/* uint8_t */
-#define	PRIu16			"u"		/* uint16_t */
-#define	PRIu32			"u"		/* uint32_t */
-#define	PRIu64			"llu"		/* uint64_t */
 
 /*  conversions from Int8  */
 Value *cast_Int8_to_Bits8(Value *input) {

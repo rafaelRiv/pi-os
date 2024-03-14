@@ -1,13 +1,7 @@
 #include "buffer.h"
 
-#include "memoryManagement.h"
-#include "math.h"
-#include "stringOps.h"
-#include "tiny-malloc.h"
-#include "refc_util.h"
-
 void *newBuffer(int bytes) {
-  int size = sizeof(Buffer) + bytes * sizeof(uint8_t);
+  size_t size = sizeof(Buffer) + bytes * sizeof(uint8_t);
 
   Buffer *buf = malloc(size);
   if (buf == NULL) {
@@ -41,7 +35,7 @@ void copyBuffer(void *from, int from_offset, int len, void *to, int to_offset) {
 int getBufferSize(void *buffer) { return ((Buffer *)buffer)->size; }
 
 
-void setBufferUIntLE(void *b, int loc, uint64_t val, int len) {
+void setBufferUIntLE(void *b, int loc, uint64_t val, size_t len) {
   assert_valid_range((Buffer *)b, loc, len);
   while (len--) {
     ((Buffer *)b)->data[loc++] = (uint8_t)val;
@@ -49,7 +43,7 @@ void setBufferUIntLE(void *b, int loc, uint64_t val, int len) {
   }
 }
 
-uint64_t getBufferUIntLE(void *b, int loc, int len) {
+uint64_t getBufferUIntLE(void *b, int loc, size_t len) {
   assert_valid_range((Buffer *)b, loc, len);
   uint64_t r = 0;
   loc += len;

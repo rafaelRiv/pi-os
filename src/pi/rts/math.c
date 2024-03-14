@@ -1,6 +1,4 @@
 #include "math.h"
-#include "runtime.h"
-#include "memoryManagement.h"
 
 int divRoundClosest(const int n, const int d)
 {

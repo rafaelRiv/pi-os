@@ -1,14 +1,8 @@
 #pragma once 
 
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long long uint64_t;
-
-typedef char int8_t;
-typedef short int16_t;
-typedef int int32_t;
-typedef long long int64_t;
+#include <stddef.h>
+#include <stdint-gcc.h>
+#include "refc_util.h"
 
 typedef struct {
   int size;
@@ -19,7 +13,7 @@ void *newBuffer(int bytes);
 
 int getBufferSize(void *buffer);
 
-void setBufferUIntLE(void *buffer, int loc, uint64_t val, int len);
+void setBufferUIntLE(void *buffer, int loc, uint64_t val, size_t len);
 #define setBufferUInt8(b, l, v)                                                \
   do {                                                                         \
     setBufferUIntLE(b, l, (uint64_t)v, 1);                                     \
@@ -59,7 +53,7 @@ void setBufferString(void *buffer, int loc, char *str);
 
 void copyBuffer(void *from, int start, int len, void *to, int loc);
 
-uint64_t getBufferUIntLE(void *buffer, int loc, int len);
+uint64_t getBufferUIntLE(void *buffer, int loc, size_t len);
 #define getBufferUInt8(b, l) ((uint8_t)getBufferUIntLE(b, l, 1))
 #define getBufferUInt16LE(b, l) ((uint16_t)getBufferUIntLE(b, l, 2))
 #define getBufferUInt32LE(b, l) ((uint32_t)getBufferUIntLE(b, l, 4))
