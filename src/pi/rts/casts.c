@@ -1,4 +1,4 @@
-#include "cast.h"
+#include "casts.h"
 
 /*  conversions from Int8  */
 Value *cast_Int8_to_Bits8(Value *input) {

@@ -3,7 +3,7 @@
 #include <stddef.h>
 
 #include "buffer.h"
-#include "cast.h"
+#include "casts.h"
 #include "datatypes.h"
 #include "conCaseHelper.h"
 #include "memoryManagement.h"
