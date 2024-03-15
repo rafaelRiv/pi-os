@@ -1,6 +1,6 @@
 module Main
 
-import Driver.UART
+import Uart
 
 main : IO ()
 main = do

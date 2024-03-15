@@ -1,0 +1,9 @@
+[custom.all.h]
+type = "local"
+path = "../h"
+ipkg = "h.ipkg"
+
+[custom.all.pc]
+type = "local"
+path = "."
+ipkg = "pc.ipkg"

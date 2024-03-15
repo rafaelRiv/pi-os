@@ -1,4 +1,4 @@
-module Driver.UART
+module Uart
 
 import H.Addr
 import H.Storable

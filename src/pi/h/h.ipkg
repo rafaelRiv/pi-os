@@ -1,0 +1,6 @@
+package h
+version = 0.1.0
+authors = "Rafael"
+modules = H.Addr, H.Storable
+sourcedir = "./"
+
