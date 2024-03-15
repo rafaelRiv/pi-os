@@ -3,7 +3,7 @@ module Driver.UART
 import H.Addr
 
 UART : Ptr Char
-UART = plusPtr nullPtr 0x10000000
+UART = plusAddr nullPtr 0x10000000
   where 
     nullPtr: Ptr Char
     nullPtr = (prim__castPtr prim__getNullAnyPtr)

@@ -35,21 +35,16 @@ void idris_primitive_memmove(void *dst, ptrdiff_t doff, void *src, ptrdiff_t sof
 int idris2_isNull(void *);
 void *idris2_getNull();
 
-IdrisChar* idris_plusAddr_IdrisChar(IdrisChar *p, IdrisWord32 offset);
+Char* idris2_plusAddr_Char(Char *p, Bits32 offset);
 
-/*int  hsprimitive_memcmp(HsWord8 *s1, HsWord8 *s2, size_t n);
-int  hsprimitive_memcmp_offset(HsWord8 *s1, HsInt off1, HsWord8 *s2, HsInt off2, size_t n);
-*/
-void idris_primitive_memset_Word8(IdrisWord8 *, ptrdiff_t, size_t, IdrisWord8);
-void idris_primitive_memset_Word16(IdrisWord16 *, ptrdiff_t, size_t, IdrisWord16);
-void idris_primitive_memset_Word32(IdrisWord32 *, ptrdiff_t, size_t, IdrisWord32);
-void idris_primitive_memset_Word64(IdrisWord64 *, ptrdiff_t, size_t, IdrisWord64);
-void idris_primitive_memset_Word(IdrisWord *, ptrdiff_t, size_t, IdrisWord);
-void idris_primitive_memset_Ptr(IdrisPtr *, ptrdiff_t, size_t, IdrisPtr);
-void idris_primitive_memset_Float(IdrisFloat *, ptrdiff_t, size_t, IdrisFloat);
-void idris_primitive_memset_Double(IdrisDouble *, ptrdiff_t, size_t, IdrisDouble);
-void idris_primitive_memset_Char(IdrisChar *, ptrdiff_t, size_t, IdrisChar);
-
+void idris2_primitive_memset_Word8(Bits8 *, ptrdiff_t, size_t, Bits8);
+void idris2_primitive_memset_Word16(Bits16 *, ptrdiff_t, size_t, Bits16);
+void idris2_primitive_memset_Word32(Bits32 *, ptrdiff_t, size_t, Bits32);
+void idris2_primitive_memset_Word64(Bits64 *, ptrdiff_t, size_t, Bits64);
+void idris2_primitive_memset_Ptr(Ptr *, ptrdiff_t, size_t, Ptr);
+void idris2_primitive_memset_Float(Float *, ptrdiff_t, size_t, Float);
+void idris2_primitive_memset_Double(Double *, ptrdiff_t, size_t, Double);
+void idris2_primitive_memset_Char(Char *, ptrdiff_t, size_t, Char);
 
 Value *onCollect(Value *, Value *, Value *, Value *);
 Value *onCollectAny(Value *, Value *, Value *);
