@@ -114,22 +114,22 @@ int idris2_isNull(void *ptr) { return (ptr == NULL); }
 
 void *idris2_getNull() { return NULL; }
 
-#define PLUSPTR(TYPE)                                                  \
-TYPE* idris_plusAddr_ ## TYPE (TYPE *p, IdrisWord32 offset) \
+#define PLUSADDR(TYPE)                                                  \
+TYPE* idris2_plusAddr_ ## TYPE (TYPE *p, Bits32 offset) \
 { \
   p += offset; \
   return p; \
 }
 
-PLUSPTR(IdrisChar)
+PLUSADDR(Char)
 
-#define MEMSET(TYPE, ATYPE)                                                  \
-void idris_primitive_memset_ ## TYPE (Idris ## TYPE *p, ptrdiff_t off, size_t n, ATYPE x) \
+#define MEMSET(TYPE)                                                  \
+void idris2_primitive_memset_ ## TYPE (TYPE *p, ptrdiff_t off, size_t n, TYPE x) \
 { \
   p += off;                                                                  \
   if (x == 0)                                                                \
-    memset(p, 0, n * sizeof(Idris ## TYPE));                                    \
-  else if (sizeof(Idris ## TYPE) == sizeof(int)*2) {                            \
+    memset(p, 0, n * sizeof(TYPE));                                          \
+  else if (sizeof(TYPE) == sizeof(int)*2) {                                  \
     int *q = (int *)p;                                                       \
     const int *r = (const int *)(void *)&x;                                  \
     while (n>0) {                                                            \
@@ -148,14 +148,14 @@ void idris_primitive_memset_ ## TYPE (Idris ## TYPE *p, ptrdiff_t off, size_t n,
 }
 
 /* MEMSET(IdrisWord8, IdrisWord) */
-MEMSET(Word16, IdrisWord16)
-MEMSET(Word32, IdrisWord32)
-MEMSET(Word64, IdrisWord64)
-MEMSET(Word, IdrisWord)
-MEMSET(Ptr, IdrisPtr)
-MEMSET(Float, IdrisFloat)
-MEMSET(Double, IdrisDouble)
-MEMSET(Char, IdrisChar)
+MEMSET(Bits8)
+MEMSET(Bits16)
+MEMSET(Bits32)
+MEMSET(Bits64)
+MEMSET(Ptr)
+MEMSET(Float)
+MEMSET(Double)
+MEMSET(Char)
 
 Value *onCollect(Value *_erased, Value *_anyPtr, Value *_freeingFunction,
                  Value *_world) {

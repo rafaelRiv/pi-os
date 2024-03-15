@@ -35,6 +35,17 @@
 
 #define	UINT8_C(_c)		(_c)
 
+// Utilities for pointer operations in prim.h
+typedef uint8_t Bits8;
+typedef int16_t Bits16;
+typedef int32_t Bits32;
+typedef int64_t Bits64;
+
+typedef void* Ptr; 
+typedef float Float;
+typedef double  Double;
+typedef char  Char;
+
 typedef struct {
   int refCounter;
   int tag;
