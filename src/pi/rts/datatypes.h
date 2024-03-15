@@ -42,7 +42,6 @@ typedef int32_t Bits32;
 typedef int64_t Bits64;
 
 typedef void* Ptr; 
-typedef float Float;
 typedef double  Double;
 typedef char  Char;
 
