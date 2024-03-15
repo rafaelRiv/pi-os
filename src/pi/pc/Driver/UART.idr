@@ -1,6 +1,7 @@
 module Driver.UART
 
 import H.Addr
+import H.Storable
 
 UART : Ptr Char
 UART = plusAddr nullPtr 0x10000000
@@ -13,8 +14,8 @@ println: String -> IO ()
 println xs = println' (unpack xs)
   where 
     println': List Char -> IO ()
-    println' [] = primIO $ setWideCharOffAddr UART  0 1 '\n'
+    println' [] = poke UART '\n'
     println' (x :: xs) = do
-      primIO $ setWideCharOffAddr UART  0 1 x
+      poke UART x
       println' xs
 

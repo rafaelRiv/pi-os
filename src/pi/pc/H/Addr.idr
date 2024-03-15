@@ -54,6 +54,34 @@ Addr Char where
   plusAddr = plusAddrChar
 
 export
+%foreign "C:idris2_primitive_memset_Bits8"
+setBits8OffAddr: Ptr Char -> Int -> Int -> Bits8 -> PrimIO ()
+
+export
+%foreign "C:idris2_primitive_memset_Bits16"
+setBits16OffAddr: Ptr Char -> Int -> Int -> Bits16 -> PrimIO ()
+
+export
+%foreign "C:idris2_primitive_memset_Bits32"
+setBits32OffAddr: Ptr Char -> Int -> Int -> Bits32 -> PrimIO ()
+
+export
+%foreign "C:idris2_primitive_memset_Bits64"
+setBits64OffAddr: Ptr Char -> Int -> Int -> Bits64 -> PrimIO ()
+
+export
+%foreign "C:idris2_primitive_memset_Double"
+setDoubleOffAddr: Ptr Char -> Int -> Int -> Double -> PrimIO ()
+
+export
 %foreign "C:idris2_primitive_memset_Char"
-setWideCharOffAddr: Ptr Char -> Int -> Int -> Char -> PrimIO ()
+setCharOffAddr: Ptr Char -> Int -> Int -> Char -> PrimIO ()
+
+{-
+export %inline
+tsetCharOffAddr: HasIO io => Buffer -> (offset : Int) -> io Bits8
+ tsetCharOffAddrbuf offset
+ = primIO (prim__getBits8 buf offset) -}
+
+
 
