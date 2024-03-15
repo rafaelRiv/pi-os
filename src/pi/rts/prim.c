@@ -121,6 +121,12 @@ TYPE* idris2_plusAddr_ ## TYPE (TYPE *p, Bits32 offset) \
   return p; \
 }
 
+PLUSADDR(Bits8)
+PLUSADDR(Bits16)
+PLUSADDR(Bits32)
+PLUSADDR(Bits64)
+PLUSADDR(Ptr)
+PLUSADDR(Double)
 PLUSADDR(Char)
 
 #define MEMSET(TYPE)                                                  \
@@ -147,13 +153,11 @@ void idris2_primitive_memset_ ## TYPE (TYPE *p, ptrdiff_t off, size_t n, TYPE x)
   }                                                                          \
 }
 
-/* MEMSET(IdrisWord8, IdrisWord) */
 MEMSET(Bits8)
 MEMSET(Bits16)
 MEMSET(Bits32)
 MEMSET(Bits64)
 MEMSET(Ptr)
-MEMSET(Float)
 MEMSET(Double)
 MEMSET(Char)
 
