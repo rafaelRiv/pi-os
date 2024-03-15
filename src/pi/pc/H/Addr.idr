@@ -77,11 +77,4 @@ export
 %foreign "C:idris2_primitive_memset_Char"
 setCharOffAddr: Ptr Char -> Int -> Int -> Char -> PrimIO ()
 
-{-
-export %inline
-tsetCharOffAddr: HasIO io => Buffer -> (offset : Int) -> io Bits8
- tsetCharOffAddrbuf offset
- = primIO (prim__getBits8 buf offset) -}
-
-
 
