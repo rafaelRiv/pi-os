@@ -1,6 +1,14 @@
 package h
 version = 0.1.0
 authors = "Rafael"
-modules = H.Addr, H.Storable
+modules = 
+  H.Addr,
+  H.AdHocMem,
+  H.MemRegion,
+  H.Monad,
+  H.Pages,
+  H.PhysicalMemory,
+  H.Storable,
+  H.VirtualMemory
 sourcedir = "./"
 
