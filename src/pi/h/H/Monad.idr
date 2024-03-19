@@ -1,22 +1,23 @@
 module H.Monad
 
-------------------------------- INTERFACE --------------------------------------
-
 record H a where
   constructor MkH
   unH: IO a
 
-
 runH : H a -> IO a
+runH = unH
 
-trappedRunH : H a -> IO ()
+Functor H where
+  map f m = MkH (map f m.unH)
 
-trace : Show a => a -> H ()
-
-{-
-
-To uncomment when an implementation for Applicative will be written
+Applicative H where
+    pure x = MkH (pure x)
+    m1 <*>  xm2 = MkH $ do
+      fn <- runH m1
+      x <- runH xm2
+      pure (fn x)
 
 Monad H where
-    (MkH x) >>= xm2 = H (runH . xm2 =<< m1)
--}
+    (MkH m1) >>= xm2 = MkH (runH . xm2 =<< m1)
+
+
