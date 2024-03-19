@@ -7,17 +7,16 @@ record H a where
 runH : H a -> IO a
 runH = unH
 
+liftIO = H
+
 Functor H where
-  map f m = MkH (map f m.unH)
+  map f (MkH m) = MkH (map f m)
 
 Applicative H where
     pure x = MkH (pure x)
-    m1 <*>  xm2 = MkH $ do
-      fn <- runH m1
-      x <- runH xm2
-      pure (fn x)
+    (MkH m1) <*>  xm2 = MkH $ m1 <*> runH xm2
 
 Monad H where
-    (MkH m1) >>= xm2 = MkH (runH . xm2 =<< m1)
+    (MkH m1) >>= xm2 = MkH $ runH . xm2 =<< m1
 
 
