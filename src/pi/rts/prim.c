@@ -121,11 +121,17 @@ TYPE* idris2_plusAddr_ ## TYPE (TYPE *p, Bits32 offset) \
   return p; \
 }
 
+Ptr* idris2_plusAddr_Ptr(Value* var_1,Ptr *p, Bits32 offset)
+{
+  p += offset;
+  return p;
+}
+
+
 PLUSADDR(Bits8)
 PLUSADDR(Bits16)
 PLUSADDR(Bits32)
 PLUSADDR(Bits64)
-PLUSADDR(Ptr)
 PLUSADDR(Double)
 PLUSADDR(Char)
 

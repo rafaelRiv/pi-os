@@ -27,7 +27,7 @@ Bits8* idris2_plusAddr_Bits8(Bits8 *p, Bits32 offset);
 Bits16* idris2_plusAddr_Bits16(Bits16 *p, Bits32 offset);
 Bits32* idris2_plusAddr_Bits32(Bits32 *p, Bits32 offset);
 Bits64* idris2_plusAddr_Bits64(Bits64 *p, Bits32 offset);
-Ptr* idris2_plusAddr_Ptr(Ptr *p, Bits32 offset);
+Ptr* idris2_plusAddr_Ptr(Value* var_1, Ptr *p, Bits32 offset);
 Double* idris2_plusAddr_Double(Double *p, Bits32 offset);
 Char* idris2_plusAddr_Char(Char *p, Bits32 offset);
 

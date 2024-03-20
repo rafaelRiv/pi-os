@@ -6,10 +6,7 @@ import H.Monad
 import H.Storable
 
 UART : Ptr Char
-UART = plusAddr nullPtr 0x10000000
-  where 
-    nullPtr: Ptr Char
-    nullPtr = (prim__castPtr prim__getNullAnyPtr)
+UART = absolutePtr 0x10000000
 
 export
 println: String -> H ()
