@@ -19,11 +19,11 @@ Functor H where
 
 public export
 Applicative H where
-    pure x = MkH (pure x)
-    (MkH m1) <*>  xm2 = MkH $ m1 <*> runH xm2
+  pure x = MkH (pure x)
+  (MkH m1) <*>  xm2 = MkH $ m1 <*> runH xm2
 
 public export
 Monad H where
-    (MkH m1) >>= xm2 = MkH $ runH . xm2 =<< m1
+  (MkH m1) >>= xm2 = MkH $ runH . xm2 =<< m1
 
 

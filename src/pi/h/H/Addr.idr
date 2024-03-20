@@ -13,9 +13,9 @@ plusAddrBits32: Ptr Bits32 -> Bits32 -> Ptr Bits32
 plusAddrBits64: Ptr Bits64 -> Bits32 -> Ptr Bits64
 
 %foreign "C:idris2_plusAddr_Ptr"
-plusAddrPtr: Ptr Void -> Bits32 -> Ptr Void
+plusAddrPtr: Ptr a -> Bits32 -> Ptr a
 
-%foreign "C:idris2_plusAddr_Char"
+%foreign "C:idris2_plusAddr_Double"
 plusAddrDouble: Ptr Double -> Bits32 -> Ptr Double
 
 %foreign "C:idris2_plusAddr_Char"
@@ -42,7 +42,7 @@ Addr Bits64 where
   plusAddr = plusAddrBits64
 
 export
-Addr Void where
+Addr a where
   plusAddr = plusAddrPtr
 
 export
@@ -55,23 +55,23 @@ Addr Char where
 
 export
 %foreign "C:idris2_primitive_memset_Bits8"
-setBits8OffAddr: Ptr Char -> Int -> Int -> Bits8 -> PrimIO ()
+setBits8OffAddr: Ptr Bits8 -> Int -> Int -> Bits8 -> PrimIO ()
 
 export
 %foreign "C:idris2_primitive_memset_Bits16"
-setBits16OffAddr: Ptr Char -> Int -> Int -> Bits16 -> PrimIO ()
+setBits16OffAddr: Ptr Bits8 -> Int -> Int -> Bits16 -> PrimIO ()
 
 export
 %foreign "C:idris2_primitive_memset_Bits32"
-setBits32OffAddr: Ptr Char -> Int -> Int -> Bits32 -> PrimIO ()
+setBits32OffAddr: Ptr Bits32 -> Int -> Int -> Bits32 -> PrimIO ()
 
 export
 %foreign "C:idris2_primitive_memset_Bits64"
-setBits64OffAddr: Ptr Char -> Int -> Int -> Bits64 -> PrimIO ()
+setBits64OffAddr: Ptr Bits64 -> Int -> Int -> Bits64 -> PrimIO ()
 
 export
 %foreign "C:idris2_primitive_memset_Double"
-setDoubleOffAddr: Ptr Char -> Int -> Int -> Double -> PrimIO ()
+setDoubleOffAddr: Ptr Double -> Int -> Int -> Double -> PrimIO ()
 
 export
 %foreign "C:idris2_primitive_memset_Char"
