@@ -31,10 +31,18 @@ Ptr* idris2_plusAddr_Ptr(Ptr *p, Bits32 offset);
 Double* idris2_plusAddr_Double(Double *p, Bits32 offset);
 Char* idris2_plusAddr_Char(Char *p, Bits32 offset);
 
-void idris2_primitive_memset_Word8(Bits8 *, ptrdiff_t, size_t, Bits8);
-void idris2_primitive_memset_Word16(Bits16 *, ptrdiff_t, size_t, Bits16);
-void idris2_primitive_memset_Word32(Bits32 *, ptrdiff_t, size_t, Bits32);
-void idris2_primitive_memset_Word64(Bits64 *, ptrdiff_t, size_t, Bits64);
+size_t idris2_sizeOf_Bits8();
+size_t idris2_sizeOf_Bits16();
+size_t idris2_sizeOf_Bits32();
+size_t idris2_sizeOf_Bits64();
+size_t idris2_sizeOf_Ptr();
+size_t idris2_sizeOf_Double();
+size_t idris2_sizeOf_Char();
+
+void idris2_primitive_memset_Bits8(Bits8 *, ptrdiff_t, size_t, Bits8);
+void idris2_primitive_memset_Bits16(Bits16 *, ptrdiff_t, size_t, Bits16);
+void idris2_primitive_memset_Bits32(Bits32 *, ptrdiff_t, size_t, Bits32);
+void idris2_primitive_memset_Bits64(Bits64 *, ptrdiff_t, size_t, Bits64);
 void idris2_primitive_memset_Ptr(Ptr *, ptrdiff_t, size_t, Ptr);
 void idris2_primitive_memset_Double(Double *, ptrdiff_t, size_t, Double);
 void idris2_primitive_memset_Char(Char *, ptrdiff_t, size_t, Char);

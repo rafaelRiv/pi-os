@@ -129,6 +129,20 @@ PLUSADDR(Ptr)
 PLUSADDR(Double)
 PLUSADDR(Char)
 
+#define SIZEOF(TYPE)                                                  \
+size_t idris2_sizeOf_ ## TYPE () \
+{ \
+  return sizeof(TYPE); \
+}
+
+SIZEOF(Bits8)
+SIZEOF(Bits16)
+SIZEOF(Bits32)
+SIZEOF(Bits64)
+SIZEOF(Ptr)
+SIZEOF(Double)
+SIZEOF(Char)
+
 #define MEMSET(TYPE)                                                  \
 void idris2_primitive_memset_ ## TYPE (TYPE *p, ptrdiff_t off, size_t n, TYPE x) \
 { \
