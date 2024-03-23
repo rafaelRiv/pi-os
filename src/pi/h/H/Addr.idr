@@ -119,5 +119,45 @@ export
 setCharOffAddr: HasIO io => Ptr Char -> Int -> Char -> io ()
 setCharOffAddr ptr offset val = primIO $ prim__setCharOffAddr ptr offset prim__sizeOfChar val
 
+%foreign "C:idris2_readAddr_Bits8"
+prim__readBits8Addr: Ptr Bits8 -> PrimIO Bits8
 
+export
+readBits8Addr: HasIO io => Ptr Bits8 -> io Bits8
+readBits8Addr ptr = primIO $ prim__readBits8Addr ptr 
+
+%foreign "C:idris2_readAddr_Bits16"
+prim__readBits16Addr: Ptr Bits16 -> PrimIO Bits16
+
+export
+readBits16Addr: HasIO io => Ptr Bits16 -> io Bits16
+readBits16Addr ptr = primIO $ prim__readBits16Addr ptr 
+
+%foreign "C:idris2_readAddr_Bits32"
+prim__readBits32Addr: Ptr Bits32 -> PrimIO Bits32
+
+export
+readBits32Addr: HasIO io => Ptr Bits32 -> io Bits32
+readBits32Addr ptr = primIO $ prim__readBits32Addr ptr 
+
+%foreign "C:idris2_readAddr_Bits64"
+prim__readBits64Addr: Ptr Bits64 -> PrimIO Bits64
+
+export
+readBits64Addr: HasIO io => Ptr Bits64 -> io Bits64
+readBits64Addr ptr = primIO $ prim__readBits64Addr ptr 
+
+%foreign "C:idris2_readAddr_Double"
+prim__readDoubleAddr: Ptr Double -> PrimIO Double
+
+export
+readDoubleAddr: HasIO io => Ptr Double -> io Double
+readDoubleAddr ptr = primIO $ prim__readDoubleAddr ptr 
+
+%foreign "C:idris2_readAddr_Char"
+prim__readCharAddr: Ptr Char -> PrimIO Char
+
+export
+readCharAddr: HasIO io => Ptr Char -> io Char
+readCharAddr ptr = primIO $ prim__readCharAddr ptr 
 

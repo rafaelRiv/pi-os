@@ -47,6 +47,13 @@ void idris2_primitive_memset_Ptr(Ptr *, ptrdiff_t, size_t, Ptr);
 void idris2_primitive_memset_Double(Double *, ptrdiff_t, size_t, Double);
 void idris2_primitive_memset_Char(Char *, ptrdiff_t, size_t, Char);
 
+Bits8 idris2_readAddr_Bits8(Bits8 *p);
+Bits16 idris2_readAddr_Bits16(Bits16 *p);
+Bits32 idris2_readAddr_Bits32(Bits32 *p);
+Bits64 idris2_readAddr_Bits64(Bits64 *p);
+Double idris2_readAddr_Double(Double *p);
+Char idris2_readAddr_Char(Char *p);
+
 Value *onCollect(Value *, Value *, Value *, Value *);
 Value *onCollectAny(Value *, Value *, Value *);
 
