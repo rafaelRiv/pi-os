@@ -135,6 +135,19 @@ PLUSADDR(Bits64)
 PLUSADDR(Double)
 PLUSADDR(Char)
 
+#define SIZEOF(TYPE)                                                  \
+size_t idris2_sizeOf_ ## TYPE () \
+{ \
+  return sizeof(TYPE); \
+}
+
+SIZEOF(Bits8)
+SIZEOF(Bits16)
+SIZEOF(Bits32)
+SIZEOF(Bits64)
+SIZEOF(Double)
+SIZEOF(Char)
+
 #define MEMSET(TYPE)                                                  \
 void idris2_primitive_memset_ ## TYPE (TYPE *p, ptrdiff_t off, size_t n, TYPE x) \
 { \
@@ -163,9 +176,21 @@ MEMSET(Bits8)
 MEMSET(Bits16)
 MEMSET(Bits32)
 MEMSET(Bits64)
-MEMSET(Ptr)
 MEMSET(Double)
 MEMSET(Char)
+
+#define READADDR(TYPE)                                                  \
+TYPE idris2_readAddr_ ## TYPE (TYPE *p) \
+{ \
+  return *p; \
+}
+
+READADDR(Bits8)
+READADDR(Bits16)
+READADDR(Bits32)
+READADDR(Bits64)
+READADDR(Double)
+READADDR(Char)
 
 Value *onCollect(Value *_erased, Value *_anyPtr, Value *_freeingFunction,
                  Value *_world) {
