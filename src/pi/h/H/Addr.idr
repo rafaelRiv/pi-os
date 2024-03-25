@@ -50,10 +50,6 @@ Addr Char where
   plusAddr = plusAddrChar
 
 export
-Addr a where
-  plusAddr = plusAddrPtr
-
-export
 %foreign "C:idris2_sizeOf_Bits8"
 prim__sizeOfBits8: Int
 
