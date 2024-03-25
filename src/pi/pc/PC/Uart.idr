@@ -1,4 +1,4 @@
-module Uart
+module PC.Uart
 
 import H.Addr
 import H.AdHocMem
