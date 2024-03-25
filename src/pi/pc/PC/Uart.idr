@@ -1,4 +1,4 @@
-module Uart
+module PC.Uart
 
 import H.Addr
 import H.AdHocMem
@@ -6,7 +6,10 @@ import H.Monad
 import H.Storable
 
 UART : Ptr Char
-UART = absolutePtr 0x10000000
+UART = plusAddr nullPtr 0x10000000
+  where 
+    nullPtr: Ptr Char
+    nullPtr = (prim__castPtr prim__getNullAnyPtr)
 
 export
 println: String -> H ()

@@ -1,7 +1,7 @@
-module Main
+module PC.Main
 
 import H.Monad
-import Uart
+import PC.Uart
 
 main : IO ()
 main = runH $ do

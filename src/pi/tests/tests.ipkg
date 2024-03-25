@@ -1,12 +1,10 @@
-package pc
+package tests
 authors = "Rafael"
 builddir = "build"
-executable= "kernel"
-depends=h
+executable= "kernel-tests"
+depends=pc
 homepage = "https://gitlab.com/pi-os/pi-os"
-main = PC.Main
-modules =
-  PC.Uart
+main = Main
 maintainers = "Rafael"
 opts = "--cg refc"
 sourcedir = "./"
