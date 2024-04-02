@@ -2,7 +2,7 @@ package tests
 authors = "Rafael"
 builddir = "build"
 executable= "kernel-tests"
-depends=pc
+depends=pc,hedgehog
 homepage = "https://gitlab.com/pi-os/pi-os"
 main = Main
 maintainers = "Rafael"
