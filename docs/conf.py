@@ -45,7 +45,7 @@ extensions = [
     'sphinx.ext.todo',
 #    'sphinx.ext.pngmath', # imgmath is not supported on readthedocs.
     'sphinx.ext.ifconfig',
-    "sphinx_rtd_theme",
+    "sphinx_rtd_theme"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -77,7 +77,7 @@ html_theme_options = {
 html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PiOSManualdoc'
+htmlhelp_basename = 'PiOSManualdo'
 
 # -- Options for LaTeX output ---------------------------------------------
 
