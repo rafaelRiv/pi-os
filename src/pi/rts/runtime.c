@@ -1,117 +1,139 @@
 #include "runtime.h"
+#include "datatypes.h"
+#include "refc_util.h"
 
 void missing_ffi() {
  // print("Foreign function declared, but not defined.\nCannot call missing FFI - aborting.\n");
   exit();
 }
 
-void push_Arglist(Value_Arglist *arglist, Value *arg) {
-  IDRIS2_REFC_VERIFY(arglist->filled < arglist->total,
-                     "unable to add more arguments to arglist");
+static inline Value *idris2_dispatch_closure(Value_Closure *clo) {
+  Value **const xs = clo->args;
+  Value *(*const f)() = clo->f;
 
-  arglist->args[arglist->filled] = newReference(arg);
-  arglist->filled++;
-} 
+  switch (clo->arity) {
+  default:
+    return (*f)(xs);
 
-
-Value *apply_closure(Value *_clos, Value *arg) {
-  // create a new arg list
-  Value_Arglist *oldArgs = ((Value_Closure *)_clos)->arglist;
-  Value_Arglist *newArgs = newArglist(0, oldArgs->total);
-  newArgs->filled = oldArgs->filled + 1;
-  // add argument to new arglist
-  for (int i = 0; i < oldArgs->filled; i++) {
-    newArgs->args[i] = newReference(oldArgs->args[i]);
+  case 0:
+    return (*f)();
+  case 1:
+    return (*f)(xs[0]);
+  case 2:
+    return (*f)(xs[0], xs[1]);
+  case 3:
+    return (*f)(xs[0], xs[1], xs[2]);
+  case 4:
+    return (*f)(xs[0], xs[1], xs[2], xs[3]);
+  case 5:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4]);
+  case 6:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5]);
+  case 7:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6]);
+  case 8:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7]);
+  case 9:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]);
+  case 10:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8],
+                xs[9]);
+  case 11:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8],
+                xs[9], xs[10]);
+  case 12:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8],
+                xs[9], xs[10], xs[11]);
+  case 13:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8],
+                xs[9], xs[10], xs[11], xs[12]);
+  case 14:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8],
+                xs[9], xs[10], xs[11], xs[12], xs[13]);
+  case 15:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8],
+                xs[9], xs[10], xs[11], xs[12], xs[13], xs[14]);
+  case 16:
+    return (*f)(xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8],
+                xs[9], xs[10], xs[11], xs[12], xs[13], xs[14], xs[15]);
   }
-  newArgs->args[oldArgs->filled] = newReference(arg);
-
-  Value_Closure *clos = (Value_Closure *)_clos;
-
-  // check if enough arguments exist
-  if (newArgs->filled >= newArgs->total) {
-    fun_ptr_t f = clos->f;
-    while (1) {
-      Value *retVal = f(newArgs);
-      removeReference((Value *)newArgs);
-      if (!retVal || retVal->header.tag != COMPLETE_CLOSURE_TAG) {
-        return retVal;
-      }
-      f = ((Value_Closure *)retVal)->f;
-      newArgs = ((Value_Closure *)retVal)->arglist;
-      newArgs = (Value_Arglist *)newReference((Value *)newArgs);
-      removeReference(retVal);
-    }
-  }
-
-  return (Value *)makeClosureFromArglist(clos->f, newArgs);
-} 
-
-Value *tailcall_apply_closure(Value *_clos, Value *arg) {
-  // create a new arg list
-  Value_Arglist *oldArgs = ((Value_Closure *)_clos)->arglist;
-  Value_Arglist *newArgs = newArglist(0, oldArgs->total);
-  newArgs->filled = oldArgs->filled + 1;
-  // add argument to new arglist
-  for (int i = 0; i < oldArgs->filled; i++) {
-    newArgs->args[i] = newReference(oldArgs->args[i]);
-  }
-  newArgs->args[oldArgs->filled] = newReference(arg);
-
-  Value_Closure *clos = (Value_Closure *)_clos;
-
-  // check if enough arguments exist
-  if (newArgs->filled >= newArgs->total)
-    return (Value *)makeClosureFromArglist(clos->f, newArgs);
-
-  return (Value *)makeClosureFromArglist(clos->f, newArgs);
 }
 
-int extractInt(Value *v) {
+Value *idris2_trampoline(Value *it) {
+  while (it && !idris2_vp_is_unboxed(it) && it->header.tag == CLOSURE_TAG) {
+    Value_Closure *clos = (Value_Closure *)it;
+    if (clos->filled < clos->arity)
+      break;
+
+    it = idris2_dispatch_closure(clos);
+    if (idris2_isUnique(clos))
+      free(clos);
+    else
+      --clos->header.refCounter;
+  }
+  return it;
+}
+
+Value *idris2_tailcall_apply_closure(Value *_clos, Value *arg) {
+  // create a new closure and copy args.
+  Value_Closure *clos = (Value_Closure *)_clos;
+  Value_Closure *newclos = idris2_mkClosure(
+      clos->f, clos->arity, clos->filled + 1 /* expanding a payload */);
+
+  if (clos->header.refCounter <= 1) {
+    memcpy(newclos->args, clos->args, sizeof(Value *) * clos->filled);
+  } else {
+    // if the closure has multiple references, then apply newReference to
+    // arguments to avoid premature clearing of arguments
+    for (int i = 0; i < clos->filled; ++i)
+      newclos->args[i] = idris2_newReference(clos->args[i]);
+  }
+  newclos->args[clos->filled] = arg; // add argument to new arglist
+
+  if (idris2_isUnique(clos)) {
+    free(clos);
+  } else {
+    --clos->header.refCounter;
+  }
+
+  return (Value *)newclos;
+}
+
+Value *idris2_apply_closure(Value *_clos, Value *arg) {
+  return idris2_trampoline(idris2_tailcall_apply_closure(_clos, arg));
+}
+
+void idris2_removeReuseConstructor(Value_Constructor *constr) {
+  if (!constr) {
+    return;
+  }
+  IDRIS2_REFC_VERIFY(constr->header.refCounter > 0, "refCounter %lld",
+                     (long long)constr->header.refCounter);
+  constr->header.refCounter--;
+  if (constr->header.refCounter == 0) {
+    free(constr);
+  }
+}
+
+int idris2_extractInt(Value *v) {
+  if (idris2_vp_is_unboxed(v))
+    return (int)idris2_vp_to_Int32(v);
+
   switch (v->header.tag) {
-  case BITS8_TAG:
-    return (int)((Value_Bits8 *)v)->ui8;
-  case BITS16_TAG:
-    return (int)((Value_Bits16 *)v)->ui16;
   case BITS32_TAG:
-    return (int)((Value_Bits32 *)v)->ui32;
+    return (int)idris2_vp_to_Bits32(v);
   case BITS64_TAG:
-    return (int)((Value_Bits64 *)v)->ui64;
-  case INT8_TAG:
-    return (int)((Value_Int8 *)v)->i8;
-  case INT16_TAG:
-    return (int)((Value_Int16 *)v)->i16;
+    return (int)idris2_vp_to_Bits64(v);
   case INT32_TAG:
-    return (int)((Value_Int32 *)v)->i32;
+    return (int)idris2_vp_to_Bits32(v);
   case INT64_TAG:
-    return (int)((Value_Int64 *)v)->i64;
+    return (int)idris2_vp_to_Int64(v);
   case INTEGER_TAG:
     return (int)((Value_Integer *)v)->i;
   case DOUBLE_TAG:
-    return (int)((Value_Double *)v)->d;
-  case CHAR_TAG:
-    return (int)((Value_Char *)v)->c;
+    return (int)idris2_vp_to_Double(v);
   default:
     return -1;
   }
 }
-
-Value *trampoline(Value *closure) {
-  fun_ptr_t f = ((Value_Closure *)closure)->f;
-  Value_Arglist *_arglist = ((Value_Closure *)closure)->arglist;
-  Value_Arglist *arglist = (Value_Arglist *)newReference((Value *)_arglist);
-  removeReference(closure);
-  while (1) {
-    Value *retVal = f(arglist);
-    removeReference((Value *)arglist);
-    if (!retVal || retVal->header.tag != COMPLETE_CLOSURE_TAG) {
-      return retVal;
-    }
-    f = ((Value_Closure *)retVal)->f;
-    arglist = ((Value_Closure *)retVal)->arglist;
-    arglist = (Value_Arglist *)newReference((Value *)arglist);
-    removeReference(retVal);
-  }
-  return NULL;
-}
-
 

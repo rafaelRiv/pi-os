@@ -30,7 +30,6 @@
 #define MUTEX_TAG 30
 #define CONDITION_TAG 31
 
-#define COMPLETE_CLOSURE_TAG 98 // for trampoline tail recursion handling
 #define WORLD_TAG 99
 
 #define	UINT8_C(_c)		(_c)
@@ -127,29 +126,21 @@ typedef struct {
 
 typedef struct {
   Value_header header;
-  int32_t total;
-  int32_t filled;
-  Value **args;
-} Value_Arglist;
-
-typedef Value *(*fun_ptr_t)(Value_Arglist *);
-
-typedef struct {
-  Value_header header;
-  fun_ptr_t f;
-  Value_Arglist *arglist;
+  Value *(*f)();
+  uint8_t arity;
+  uint8_t filled; // length of args.
+  Value *args[];
 } Value_Closure;
 
 typedef struct {
   Value_header header;
-  int32_t index;
+  Value *v;
 } Value_IORef;
 
 typedef struct {
   Value_header header;
   void *p;
 } Value_Pointer;
-
 
 typedef struct {
   Value_header header;
