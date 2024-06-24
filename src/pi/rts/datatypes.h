@@ -3,36 +3,7 @@
 #include "buffer.h"
 #include "mini-gmp.h"
 
-#define NO_TAG 0
-#define BITS8_TAG 1
-#define BITS16_TAG 2
-#define BITS32_TAG 3
-#define BITS64_TAG 4
-#define INT8_TAG 5
-#define INT16_TAG 6
-#define INT32_TAG 7
-#define INT64_TAG 8
-#define INTEGER_TAG 9
-#define DOUBLE_TAG 10
-#define CHAR_TAG 11
-#define STRING_TAG 12
 
-#define CLOSURE_TAG 15
-#define ARGLIST_TAG 16
-#define CONSTRUCTOR_TAG 17
-
-#define IOREF_TAG 20
-#define ARRAY_TAG 21
-#define POINTER_TAG 22
-#define GC_POINTER_TAG 23
-#define BUFFER_TAG 24
-
-#define MUTEX_TAG 30
-#define CONDITION_TAG 31
-
-#define WORLD_TAG 99
-
-#define	UINT8_C(_c)		(_c)
 
 // Utilities for pointer operations in prim.h
 typedef uint8_t Bits8;
@@ -55,6 +26,59 @@ typedef struct {
   // `Value_Xxx` structs have the same header
   // followed by type-specific payload.
 } Value;
+
+/*
+We expect at least 4 bytes for `Value_header` alignment, to use bit0 and bit1 of
+pointer as flags.
+
+RefC does not have complete static tracking of type information, so types are
+identified at runtime using Value_Header's tag field. However, Int that are
+pretending to be pointers cannot have that tag, so use that flag to identify
+them first. Of course, this flag is not used if it is clear that Value* is
+actually an Int. But places like newReference/removeReference require this flag.
+ */
+#define idris2_vp_is_unboxed(p) ((uintptr_t)(p)&3)
+
+#define idris2_vp_int_shift                                                    \
+  ((sizeof(uintptr_t) >= 8 && sizeof(Value *) >= 8) ? 32 : 16)
+
+#define idris2_vp_to_Bits64(p) (((Value_Bits64 *)(p))->ui64)
+
+#if !defined(UINTPTR_WIDTH)
+#define idris2_vp_to_Bits32(p)                                                 \
+  ((idris2_vp_int_shift == 16)                                                 \
+       ? (((Value_Bits32 *)(p))->ui32)                                         \
+       : ((uint32_t)((uintptr_t)(p) >> idris2_vp_int_shift)))
+#define idris2_vp_to_Int32(p)                                                  \
+  ((idris2_vp_int_shift == 16)                                                 \
+       ? (((Value_Int32 *)(p))->i32)                                           \
+       : ((int32_t)((uintptr_t)(p) >> idris2_vp_int_shift)))
+
+#elif UINTPTR_WIDTH >= 64
+// NOTE: We stole two bits from pointer. So, even if we have 64-bit CPU,
+//  Int64/Bits654 are not unboxable.
+#define idris2_vp_to_Bits32(p)                                                 \
+  ((uint32_t)((uintptr_t)(p) >> idris2_vp_int_shift))
+#define idris2_vp_to_Int32(p) ((int32_t)((uintptr_t)(p) >> idris2_vp_int_shift))
+
+#elif UINTPTR_WIDTH >= 32
+#define idris2_vp_to_Bits32(p) (((Value_Bits32 *)(p))->ui32)
+#define idris2_vp_to_Int32(p) (((Value_Int32 *)(p))->i32)
+
+#else
+#error "unsupported uintptr_t width"
+#endif
+
+#define idris2_vp_to_Bits16(p)                                                 \
+  ((uint16_t)((uintptr_t)(p) >> idris2_vp_int_shift))
+#define idris2_vp_to_Bits8(p) ((uint8_t)((uintptr_t)(p) >> idris2_vp_int_shift))
+#define idris2_vp_to_Int64(p) (((Value_Int64 *)(p))->i64)
+#define idris2_vp_to_Int16(p) ((int16_t)((uintptr_t)(p) >> idris2_vp_int_shift))
+#define idris2_vp_to_Int8(p) ((int8_t)((uintptr_t)(p) >> idris2_vp_int_shift))
+#define idris2_vp_to_Char(p)                                                   \
+  ((unsigned char)((uintptr_t)(p) >> idris2_vp_int_shift))
+#define idris2_vp_to_Double(p) (((Value_Double *)(p))->d)
+#define idris2_vp_to_Bool(p) (idris2_vp_to_Int8(p)
 
 typedef struct {
   Value_header header;
