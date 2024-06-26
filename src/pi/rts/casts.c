@@ -150,7 +150,7 @@ Value *idris2_cast_String_to_Integer(Value *input) {
 }
 
 Value *idris2_cast_String_to_Double(Value *input) {
-  return (Value *)idris2_mkDouble(atof(((Value_String *)input)->str));
+  return (Value *)idris2_mkDouble(_atof(((Value_String *)input)->str));
 }
 
 /*  conversions from Bits8  */

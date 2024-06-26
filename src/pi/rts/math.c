@@ -83,8 +83,9 @@ Value *idris2_div_Int64(Value *x, Value *y) {
 }
 
 Value *idris2_div_Integer(Value *x, Value *y) {
-  mpz_t rem, yq;
-  mpz_inits(rem, yq, NULL);
+	mpz_t rem, yq;
+  mpz_init(rem);
+  mpz_init(yq);
 
   mpz_mod(rem, ((Value_Integer *)x)->i, ((Value_Integer *)y)->i);
   mpz_sub(yq, ((Value_Integer *)x)->i, rem);
@@ -92,8 +93,8 @@ Value *idris2_div_Integer(Value *x, Value *y) {
   Value_Integer *retVal = idris2_mkInteger();
   mpz_divexact(retVal->i, yq, ((Value_Integer *)y)->i);
 
-  mpz_clears(rem, yq, NULL);
-
+  mpz_clear(rem);
+  mpz_clear(yq);
   return (Value *)retVal;
 }
 

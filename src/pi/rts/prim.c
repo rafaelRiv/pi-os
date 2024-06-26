@@ -23,7 +23,7 @@ Value *idris2_Data_IORef_prim__writeIORef(Value *erased, Value *_ioref,
 // -----------------------------------
 
 
-Value *sysCodegen(void) { return (Value *)makeString("refc"); }
+Value *sysCodegen(void) { return (Value *)idris2_mkString("refc"); }
 
 Value *idris2_crash(Value *msg) {
   Value_String *str = (Value_String *)msg;
@@ -146,22 +146,26 @@ READADDR(Bits64)
 READADDR(Double)
 READADDR(Char)
 
-Value *onCollect(Value *_erased, Value *_anyPtr, Value *_freeingFunction,
-                 Value *_world) {
+Value *idris2_Prelude_IO_prim__onCollect(Value *_erased, Value *_anyPtr,
+                                         Value *_freeingFunction,
+                                         Value *_world) {
   Value_GCPointer *retVal = IDRIS2_NEW_VALUE(Value_GCPointer);
   retVal->header.tag = GC_POINTER_TAG;
-  retVal->p = (Value_Pointer *)newReference(_anyPtr);
-  retVal->onCollectFct = (Value_Closure *)newReference(_freeingFunction);
+  retVal->p = (Value_Pointer *)idris2_newReference(_anyPtr);
+  retVal->onCollectFct = (Value_Closure *)_freeingFunction;
   return (Value *)retVal;
 }
-
-Value *onCollectAny(Value *_anyPtr, Value *_freeingFunction, Value *_world) {
+ 
+Value *idris2_Prelude_IO_prim__onCollectAny(Value *_anyPtr,
+                                            Value *_freeingFunction,
+                                            Value *_world) {
   Value_GCPointer *retVal = IDRIS2_NEW_VALUE(Value_GCPointer);
   retVal->header.tag = GC_POINTER_TAG;
-  retVal->p = (Value_Pointer *)newReference(_anyPtr);
-  retVal->onCollectFct = (Value_Closure *)newReference(_freeingFunction);
+  retVal->p = (Value_Pointer *)idris2_newReference(_anyPtr);
+  retVal->onCollectFct = (Value_Closure *)_freeingFunction;
   return (Value *)retVal;
 }
 
 Value *voidElim(Value *erased1, Value *erased2) { return NULL; }
+
 

@@ -195,6 +195,33 @@ static unsigned int _atoi(const char** str)
 }
 
 
+float _atof(char *arr)
+{
+  float val = 0;
+  int afterdot=0;
+  float scale=1;
+  int neg = 0; 
+
+  if (*arr == '-') {
+    arr++;
+    neg = 1;
+  }
+  while (*arr) {
+    if (afterdot) {
+      scale = scale/10;
+      val = val + (*arr-'0')*scale;
+    } else {
+      if (*arr == '.') 
+    afterdot++;
+      else
+    val = val * 10.0 + (*arr - '0');
+    }
+    arr++;
+  }
+  if(neg) return -val;
+  else    return  val;
+}
+
 // output the specified string in reverse, taking care of any zero-padding
 static size_t _out_rev(out_fct_type out, char* buffer, size_t idx, size_t maxlen, const char* buf, size_t len, unsigned int width, unsigned int flags)
 {
