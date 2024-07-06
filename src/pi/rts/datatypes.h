@@ -101,16 +101,6 @@ actually an Int. But places like newReference/removeReference require this flag.
 
 typedef struct {
   Value_header header;
-  uint8_t ui8;
-} Value_Bits8;
-
-typedef struct {
-  Value_header header;
-  uint16_t ui16;
-} Value_Bits16;
-
-typedef struct {
-  Value_header header;
   uint32_t ui32;
 } Value_Bits32;
 
@@ -118,16 +108,6 @@ typedef struct {
   Value_header header;
   uint64_t ui64;
 } Value_Bits64;
-
-typedef struct {
-  Value_header header;
-  int8_t i8;
-} Value_Int8;
-
-typedef struct {
-  Value_header header;
-  int16_t i16;
-} Value_Int16;
 
 typedef struct {
   Value_header header;
@@ -151,11 +131,6 @@ typedef struct {
 
 typedef struct {
   Value_header header;
-  unsigned char c;
-} Value_Char;
-
-typedef struct {
-  Value_header header;
   char *str;
 } Value_String;
 
@@ -163,8 +138,8 @@ typedef struct {
   Value_header header;
   int32_t total;
   int32_t tag;
-  char *name;
-  Value **args;
+  char const *name;
+  Value *args[];
 } Value_Constructor;
 
 typedef struct {
@@ -202,14 +177,5 @@ typedef struct {
   Buffer *buffer;
 } Value_Buffer;
 
-typedef struct {
-  Value **refs;
-  int filled;
-  int total;
-} IORef_Storage;
 
-typedef struct {
-  Value_header header;
-  IORef_Storage *listIORefs;
-} Value_World;
 
