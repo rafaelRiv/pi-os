@@ -2,11 +2,11 @@ module PC.Main
 
 import H.Monad
 import PC.Uart
+import H.Pages
 
 main : IO ()
 main = runH $ do
-  println "Hello from Idris2 on bare metal"
-  println "For this example, we will concact two simple lists"
-  println $ show $ [1,2,3,4] ++ [5,6,7,8]
+  println "Welcome to PI OS"
+  println $ "Number of pages: " ++ show NUM_PAGES
 
 
