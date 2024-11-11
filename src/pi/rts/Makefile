@@ -17,5 +17,5 @@ rts/%.o: %.c
 pc/%.o: %.s
 
 clean:
-	rm *.o
+	rm -f *.o || true
 
