@@ -11,5 +11,5 @@ cbits: $(CBITSOBJS)
 CBITSDIR/entry.o: %.s
 
 clean:
-	rm *.o
+	rm -f *.o || true
 

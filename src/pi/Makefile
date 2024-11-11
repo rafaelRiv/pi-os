@@ -33,4 +33,4 @@ clean:
 	$(MAKE) clean -C h
 	$(MAKE) clean -C pc
 	$(MAKE) clean -C tests
-	rm *.o *.elf *.c
+	rm -f *.o *.elf *.c || true

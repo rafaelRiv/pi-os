@@ -7,5 +7,5 @@ all:
 	cp build/exec/kernel-tests.c kernel-tests.c
 
 clean:
-	rm *.c
-	rm -rf build
+	rm -f *.c || true
+	rm -rf build || true

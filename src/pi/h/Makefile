@@ -2,4 +2,4 @@ all:
 	pack build h
 
 clean:
-	rm -rf build
+	rm -rf build || true
