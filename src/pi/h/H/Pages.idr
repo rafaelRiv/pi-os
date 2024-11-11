@@ -1,16 +1,31 @@
 module H.Pages
 
+import H.Monad
+
+------------------------ INTERFACE -----------------------------------------
+
+-- type Page a = Ptr a 
+
+Page: a -> Ptr a
+
 %foreign "C:idris2_heap_size"
 prim__idris2_heap_size: Int
 
 export
-HEAP_SIZE: Int
-HEAP_SIZE = prim__idris2_heap_size
+heapSize: Int
+heapSize = prim__idris2_heap_size
 
 export
-PAGE_SIZE: Int
-PAGE_SIZE = 4096
+pageSize: Int
+pageSize = 4096
 
 export
-NUM_PAGES : Double
-NUM_PAGES = (cast {to=Double} HEAP_SIZE) / (cast {to=Double} PAGE_SIZE)
+numPages : Double
+numPages = (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
+
+-- allocPage: H (Maybe (Page a))
+-- freePage: Page a -> H ()
+-- registerPage: Page a -> b -> (Page a -> H ()) -> H ()
+-- zeroPage: Page a -> H ()
+-- validPage: Page a -> Bool
+

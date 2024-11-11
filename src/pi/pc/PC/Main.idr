@@ -7,6 +7,6 @@ import H.Pages
 main : IO ()
 main = runH $ do
   println "Welcome to PI OS"
-  println $ "Number of pages: " ++ show NUM_PAGES
+  println $ "Number of pages: " ++ show numPages
 
 
