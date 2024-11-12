@@ -12,11 +12,21 @@ export
 pageSize: Int
 pageSize = 4096
 
-allocPage: H (Maybe (Page a))
-freePage: Page a -> H ()
-registerPage: Page a -> b -> (Page a -> H ()) -> H ()
-zeroPage: Page a -> H ()
-validPage: Page a -> Bool
+-- From house os
+
+allocPage : H (Maybe (Page a))
+freePage : Page a -> H ()
+registerPage : Page a -> b -> (Page a -> H ()) -> H ()
+zeroPage : Page a -> H ()
+validPage : Page a -> Bool
+
+-- From osblog
+init: H ()
+kzmalloc : Page a -> H ()
+kmalloc : Page a -> H ()
+kfree : Page a -> H ()
+coalesce : H ()
+printTable : H ()
 
 ---------------------- PRIVATE IMPLEMENTATION FOLLOWS --------------------
 
@@ -24,12 +34,11 @@ validPage: Page a -> Bool
 prim__idris2_heap_size: Int
 
 export
-heapSize: Int
+heapSize : Int
 heapSize = prim__idris2_heap_size
 
 export
 numPages : Double
 numPages = (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
 
-init: H ()
 
