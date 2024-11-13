@@ -1,7 +1,9 @@
 module H.Pages
 
+import H.Addr
+import H.AdHocMem
+import H.Storable
 import H.Monad
-
 ------------------------ INTERFACE -----------------------------------------
 
 data Page a = Ptr a 
@@ -12,16 +14,7 @@ export
 pageSize: Int
 pageSize = 4096
 
--- From house os
-
-allocPage : H (Maybe (Page a))
-freePage : Page a -> H ()
-registerPage : Page a -> b -> (Page a -> H ()) -> H ()
-zeroPage : Page a -> H ()
-validPage : Page a -> Bool
-
 -- From osblog
-init: H ()
 kzmalloc : Page a -> H ()
 kmalloc : Page a -> H ()
 kfree : Page a -> H ()
@@ -38,7 +31,16 @@ heapSize : Int
 heapSize = prim__idris2_heap_size
 
 export
-numPages : Double
-numPages = (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
+numPages : Int
+numPages = cast {to=Int} $ (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
+
+init : H ()
+init = traverse_ clear [0..numPages]  
+  where 
+    nullPtr: Ptr Bits8
+    nullPtr = (prim__castPtr prim__getNullAnyPtr)
+
+    clear : Int -> H () 
+    clear addr = poke (plusAddr nullPtr (cast {to=Bits32} addr)) 0
 
 
