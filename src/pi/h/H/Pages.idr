@@ -15,11 +15,9 @@ pageSize: Int
 pageSize = 4096
 
 -- From osblog
-kzmalloc : Page a -> H ()
-kmalloc : Page a -> H ()
-kfree : Page a -> H ()
-coalesce : H ()
-printTable : H ()
+
+zalloc : Page a -> H ()
+dealloc : Page a -> H ()
 
 ---------------------- PRIVATE IMPLEMENTATION FOLLOWS --------------------
 
@@ -47,5 +45,7 @@ init = traverse_ clear [0..numPages]
 
     clear : Int -> H () 
     clear addr = poke (plusAddr nullPtr (cast {to=Bits32} addr)) 0
+
+alloc : Page a -> H ()
 
 
