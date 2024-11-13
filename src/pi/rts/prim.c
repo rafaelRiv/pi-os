@@ -168,4 +168,9 @@ Value *idris2_Prelude_IO_prim__onCollectAny(Value *_anyPtr,
 
 Value *voidElim(Value *erased1, Value *erased2) { return NULL; }
 
+size_t idris2_heap_size()
+{
+  return HEAP_SIZE;
+}
+
 
