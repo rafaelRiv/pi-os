@@ -34,6 +34,11 @@ export
 numPages : Int
 numPages = cast {to=Int} $ (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
 
+{-
+  - I am pretty sure I am wrong here because we don't initialise the heap on the first bit of each page. 
+  - We are initialising 0 to numPages here.
+-}
+
 init : H ()
 init = traverse_ clear [0..numPages]  
   where 
