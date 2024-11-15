@@ -41,8 +41,8 @@ init = traverse_ clear [0..numPages]
     clear : Int -> H () 
     clear page = poke (plusAddr nullPtr (cast {to=Bits32} (page*pageSize))) 0
 
-alloc : Int -> H (Maybe Int)
-alloc pages = firstFreeContiguous 0 pages
+alloc : Int -> H ()
+alloc pages = firstFreeContiguous 0 pages >>= takePages
 
   where 
     nullPtr: Ptr Bits8
@@ -69,6 +69,15 @@ alloc pages = firstFreeContiguous 0 pages
         if val
            then pure (Just page)
            else firstFreeContiguous (page+1) size
+
+    takePage : Int -> H ()
+    takePage page =  poke (plusAddr nullPtr (cast {to=Bits32} (page*pageSize))) 1
+
+    takePages : Maybe Int -> H ()
+    takePages Nothing = pure ()
+    takePages (Just page) = traverse_ takePage [page..pages]
+
+
 
   
 
