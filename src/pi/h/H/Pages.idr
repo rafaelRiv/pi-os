@@ -17,7 +17,6 @@ pageSize = 4096
 -- From osblog
 
 zalloc : Page a -> H ()
-dealloc : Page a -> H ()
 
 ---------------------- PRIVATE IMPLEMENTATION FOLLOWS --------------------
 
@@ -77,6 +76,9 @@ alloc pages = firstFreeContiguous 0 pages >>= takePages
     takePages Nothing = pure ()
     takePages (Just page) = traverse_ takePage [page..pages]
 
+
+dealloc : Page a -> H ()
+dealloc page = pure ()
 
 
   
