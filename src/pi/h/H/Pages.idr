@@ -28,25 +28,29 @@ export
 heapSize : Int
 heapSize = prim__idris2_heap_size
 
+%foreign "C:idris2_heap_start"
+prim__idris2_heap_start: Ptr Bits8
+
+export
+heapStart : Ptr Bits8
+heapStart = prim__idris2_heap_start
+
 export
 numPages : Int
 numPages = cast {to=Int} $ (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
 
 export
 init : H ()
-init = traverse_ clear [0..numPages]  
+init = traverse_ clear [0..100]  
   where 
-    nullPtr: Ptr Bits8
-    nullPtr = (prim__castPtr prim__getNullAnyPtr)
-
     clear : Int -> H () 
-    clear page = poke (plusAddr nullPtr (cast {to=Bits32} (page*pageSize))) 0
+    clear page = poke (plusAddr heapStart (cast {to=Bits32} (page*pageSize))) 0
 
 alloc : Int -> H ()
 alloc pages = firstFreeContiguous 0 pages >>= takePages
 
   where 
-    nullPtr: Ptr Bits8
+    nullPtr: Ptr Bits32
     nullPtr = (prim__castPtr prim__getNullAnyPtr)
 
     isFreeContiguous : Int -> Int -> H Bool
