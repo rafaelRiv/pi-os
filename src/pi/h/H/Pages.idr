@@ -32,6 +32,7 @@ export
 numPages : Int
 numPages = cast {to=Int} $ (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
 
+export
 init : H ()
 init = traverse_ clear [0..numPages]  
   where 
