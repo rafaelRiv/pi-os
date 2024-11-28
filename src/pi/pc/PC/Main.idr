@@ -7,9 +7,8 @@ import H.Pages
 main : IO ()
 main = runH $ do
   println "Welcome to PI OS"
-  println $ "Number of pages: " ++ show numPages
   println "Initialise the heap"
-  init
+  pageinit
   println "Finish initialise the heap"
 
 

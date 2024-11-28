@@ -39,12 +39,67 @@ export
 numPages : Int
 numPages = cast {to=Int} $ (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
 
+UART : Ptr Char
+UART = plusAddr nullPtr 0x10000000
+  where 
+    nullPtr: Ptr Char
+    nullPtr = (prim__castPtr prim__getNullAnyPtr)
+
+println: String -> H ()
+println xs = println' (unpack xs)
+  where 
+    println': List Char -> H ()
+    println' [] = poke UART '\n'
+    println' (x :: xs) = do
+      poke UART x
+      println' xs
+
 export
-init : H ()
-init = traverse_ clear [0..numPages]  
+pageinit : H ()
+pageinit = helper numPages
   where 
     clear : Int -> H () 
-    clear page = pure () -- poke (plusAddr heapStart (cast {to=Bits32} page)) 0
+    clear page = poke (plusAddr heapStart (cast {to=Bits32} page)) 0
+    
+    helper : Int -> H ()
+    helper 0 = clear 0
+    helper i = clear i >> helper (i-1)
+
+alloc : Int -> H ()
+alloc pages = firstFreeContiguous 0 pages >>= takePages
+  where 
+    nullPtr: Ptr Bits8
+    nullPtr = (prim__castPtr prim__getNullAnyPtr)
+
+    isFreeContiguous : Int -> Int -> H Bool
+    isFreeContiguous page 0 = do
+        val <- peek (plusAddr nullPtr (cast {to=Bits32} page))
+        pure (val == 0)
+    isFreeContiguous page size = do
+      val <- peek (plusAddr nullPtr (cast {to=Bits32} (page+size)))
+      if val == 0
+        then isFreeContiguous page (size-1)
+        else pure False
+
+    firstFreeContiguous : Int -> Int -> H (Maybe Int)
+    firstFreeContiguous page 1 = do
+        val <- peek (plusAddr nullPtr (cast {to=Bits32} page))
+        if val == 0 
+           then pure (Just page)
+           else pure Nothing
+    firstFreeContiguous page size = do
+        val <- isFreeContiguous page size
+        if val
+           then pure (Just page)
+           else firstFreeContiguous (page+1) size
+
+    takePage : Int -> H ()
+    takePage page =  poke (plusAddr nullPtr (cast {to=Bits32} page)) 1
+    takePages : Maybe Int -> H ()
+    takePages Nothing = pure ()
+    takePages (Just page) = traverse_ takePage [page..pages]
+
+    
 
 
 
