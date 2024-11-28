@@ -39,21 +39,6 @@ export
 numPages : Int
 numPages = cast {to=Int} $ (cast {to=Double} heapSize) / (cast {to=Double} pageSize)
 
-UART : Ptr Char
-UART = plusAddr nullPtr 0x10000000
-  where 
-    nullPtr: Ptr Char
-    nullPtr = (prim__castPtr prim__getNullAnyPtr)
-
-println: String -> H ()
-println xs = println' (unpack xs)
-  where 
-    println': List Char -> H ()
-    println' [] = poke UART '\n'
-    println' (x :: xs) = do
-      poke UART x
-      println' xs
-
 export
 pageinit : H ()
 pageinit = helper numPages
