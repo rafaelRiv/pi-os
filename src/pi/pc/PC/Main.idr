@@ -10,6 +10,9 @@ main = runH $ do
   println "Initialise the heap"
   pageinit
   println "Finish initialise the heap"
+  println "Alloc 2 pages"
+  alloc 2
+  println "Finish alloc 2 pages"
 
 
 
