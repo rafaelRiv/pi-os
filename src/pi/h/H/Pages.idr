@@ -50,6 +50,7 @@ pageinit = helper numPages
     helper 0 = clear 0
     helper i = clear i >> helper (i-1)
 
+export
 alloc : Int -> H ()
 alloc pages = firstFreeContiguous 0 pages >>= takePages
   where 
@@ -80,9 +81,15 @@ alloc pages = firstFreeContiguous 0 pages >>= takePages
 
     takePage : Int -> H ()
     takePage page =  poke (plusAddr nullPtr (cast {to=Bits32} page)) 1
+
     takePages : Maybe Int -> H ()
     takePages Nothing = pure ()
-    takePages (Just page) = traverse_ takePage [page..pages]
+    takePages (Just page) = helper page
+
+      where helper : Int -> H ()
+            helper n = if n <= page+pages
+                       then takePage n >> helper (n+1)
+                       else pure ()
 
     
 
