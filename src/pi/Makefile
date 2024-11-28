@@ -22,7 +22,7 @@ all:
 tests:
 	$(MAKE) -C rts
 	$(MAKE) -C pcboot
-	$(MAKE) -C pc
+	$(MAKE) -C tests
 	cp tests/kernel-tests.c kernel-tests.c
 	${CC} ${CFLAGS} kernel-tests.c -o kernel-tests.o -ffreestanding
 	riscv64-unknown-elf-ld -T pcboot/linker.ld -nostdlib kernel-tests.o  $(PCBOOTOBJS) $(RTSOBJS) -o kernel-tests.elf

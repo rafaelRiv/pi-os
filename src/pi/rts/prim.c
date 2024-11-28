@@ -173,4 +173,9 @@ size_t idris2_heap_size()
   return HEAP_SIZE;
 }
 
+char* idris2_heap_start()
+{
+  return HEAP_START;
+}
+
 
