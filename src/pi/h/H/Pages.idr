@@ -54,22 +54,19 @@ export
 alloc : Int -> H ()
 alloc pages = firstFreeContiguous 0 pages >>= takePages
   where 
-    nullPtr: Ptr Bits8
-    nullPtr = (prim__castPtr prim__getNullAnyPtr)
-
     isFreeContiguous : Int -> Int -> H Bool
     isFreeContiguous page 0 = do
-        val <- peek (plusAddr nullPtr (cast {to=Bits32} page))
+        val <- peek (plusAddr heapStart (cast {to=Bits32} page))
         pure (val == 0)
     isFreeContiguous page size = do
-      val <- peek (plusAddr nullPtr (cast {to=Bits32} (page+size)))
+      val <- peek (plusAddr heapStart (cast {to=Bits32} (page+size)))
       if val == 0
         then isFreeContiguous page (size-1)
         else pure False
 
     firstFreeContiguous : Int -> Int -> H (Maybe Int)
     firstFreeContiguous page 1 = do
-        val <- peek (plusAddr nullPtr (cast {to=Bits32} page))
+        val <- peek (plusAddr heapStart (cast {to=Bits32} page))
         if val == 0 
            then pure (Just page)
            else pure Nothing
@@ -80,7 +77,7 @@ alloc pages = firstFreeContiguous 0 pages >>= takePages
            else firstFreeContiguous (page+1) size
 
     takePage : Int -> H ()
-    takePage page =  poke (plusAddr nullPtr (cast {to=Bits32} page)) 1
+    takePage page =  poke (plusAddr heapStart (cast {to=Bits32} page)) 1
 
     takePages : Maybe Int -> H ()
     takePages Nothing = pure ()
