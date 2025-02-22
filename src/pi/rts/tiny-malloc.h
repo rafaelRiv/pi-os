@@ -9,6 +9,7 @@
 #endif
 
 #include <stddef.h>
+#include "libc.h"
 
 void* malloc(size_t);
 void    free(void*);

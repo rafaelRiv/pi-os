@@ -1,8 +1,7 @@
 /*
  * The content of this file is in the public domain.
  */
-
-typedef unsigned int size_t;
+#include "libc.h"
 
 int abs(int j) {
   if (j < 0)

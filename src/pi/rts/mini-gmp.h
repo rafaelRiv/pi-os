@@ -43,6 +43,9 @@ see https://www.gnu.org/licenses/.  */
 # include <stddef.h>
 #endif
 
+#include "libc.h"
+#include "tiny-malloc.h"
+
 #if defined (__cplusplus)
 extern "C" {
 #endif

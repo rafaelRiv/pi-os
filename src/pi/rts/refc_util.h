@@ -4,7 +4,7 @@
 #define IDRIS2_REFC_VERIFY(cond, ...)                                          \
   do {                                                                         \
     if (!(cond)) {                                                             \
-      idris2_refc_verify_failed(__FILE__, __LINE__, #cond, __VA_ARGS__);       \
+      idris2_refc_verify_failed(__FILE__, (char*) __LINE__, #cond, __VA_ARGS__);       \
     }                                                                          \
   } while (0)
 

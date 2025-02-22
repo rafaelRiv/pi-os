@@ -3,6 +3,8 @@
 #include <stddef.h>
 #include <stdint-gcc.h>
 #include "refc_util.h"
+#include "tiny-malloc.h"
+#include "libc.h"
 
 typedef struct {
   int size;
